@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 엔진 | Guide Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--light);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-title {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 350px;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Sidebar - Components */
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .component-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .component-item {
+            padding: 12px 15px;
+            background: var(--light);
+            border-radius: 10px;
+            cursor: grab;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid transparent;
+        }
+
+        .component-item:hover {
+            background: #e0f2fe;
+            border-color: var(--primary);
+        }
+
+        .component-item:active {
+            cursor: grabbing;
+        }
+
+        .component-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .component-icon.blue { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .component-icon.purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .component-icon.green { background: linear-gradient(135deg, #10b981, #34d399); }
+        .component-icon.orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .component-icon.red { background: linear-gradient(135deg, #ef4444, #f87171); }
+        .component-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .component-icon.teal { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+        .component-icon.gray { background: linear-gradient(135deg, #64748b, #94a3b8); }
+
+        .component-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .component-info p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        /* Editor Area */
+        .editor-area {
+            padding: 30px;
+            overflow-y: auto;
+            background: #e2e8f0;
+        }
+
+        .editor-canvas {
+            background: white;
+            border-radius: 16px;
+            min-height: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 40px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: var(--gray);
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .drop-zone-icon {
+            font-size: 3rem;
+            opacity: 0.5;
+        }
+
+        .drop-zone p {
+            font-size: 1rem;
+        }
+
+        /* Guide Elements */
+        .guide-element {
+            position: relative;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .guide-element:hover {
+            border-color: var(--primary);
+        }
+
+        .guide-element.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        }
+
+        .element-actions {
+            position: absolute;
+            top: -12px;
+            right: 10px;
+            display: none;
+            gap: 5px;
+            background: white;
+            padding: 4px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .guide-element:hover .element-actions,
+        .guide-element.selected .element-actions {
+            display: flex;
+        }
+
+        .element-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .element-btn.edit { background: #dbeafe; color: var(--primary); }
+        .element-btn.edit:hover { background: var(--primary); color: white; }
+        .element-btn.up { background: #f0fdf4; color: var(--secondary); }
+        .element-btn.up:hover { background: var(--secondary); color: white; }
+        .element-btn.down { background: #fef3c7; color: var(--warning); }
+        .element-btn.down:hover { background: var(--warning); color: white; }
+        .element-btn.delete { background: #fee2e2; color: var(--danger); }
+        .element-btn.delete:hover { background: var(--danger); color: white; }
+
+        /* Element Styles */
+        .el-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .el-header h1 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .el-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+        }
+
+        .el-section-title {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .el-section-title .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--primary);
+        }
+
+        .el-section-title h2 {
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+
+        .el-section-title .subtitle {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .el-text {
+            padding: 15px 20px;
+        }
+
+        .el-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+
+        .el-step-list {
+            padding: 15px 20px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-num {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .el-tip-box {
+            padding: 15px 20px;
+        }
+
+        .tip-box {
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid;
+        }
+
+        .tip-box.info {
+            background: #eff6ff;
+            border-color: var(--primary);
+        }
+
+        .tip-box.success {
+            background: #f0fdf4;
+            border-color: var(--secondary);
+        }
+
+        .tip-box.warning {
+            background: #fffbeb;
+            border-color: var(--warning);
+        }
+
+        .tip-box.danger {
+            background: #fef2f2;
+            border-color: var(--danger);
+        }
+
+        .tip-box h4 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-box p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .el-feature-grid {
+            padding: 15px 20px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .feature-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 12px;
+            background: var(--primary);
+        }
+
+        .feature-card h4 {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .el-divider {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .el-divider hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+        }
+
+        .el-image {
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .el-image .placeholder {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 60px;
+            color: var(--gray);
+        }
+
+        /* Properties Panel */
+        .properties-panel {
+            background: white;
+            border-left: 1px solid #e2e8f0;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .panel-section {
+            margin-bottom: 25px;
+        }
+
+        .panel-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option:hover,
+        .color-option.selected {
+            border-color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        .color-option.blue { background: var(--primary); }
+        .color-option.purple { background: var(--accent); }
+        .color-option.green { background: var(--secondary); }
+        .color-option.orange { background: var(--warning); }
+        .color-option.red { background: var(--danger); }
+        .color-option.pink { background: #ec4899; }
+        .color-option.teal { background: #14b8a6; }
+        .color-option.gray { background: var(--gray); }
+
+        /* Guide Info */
+        .guide-info {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .guide-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .guide-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .guide-info-item span:first-child {
+            color: var(--gray);
+        }
+
+        .guide-info-item span:last-child {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Export Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            background: var(--light);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .export-option {
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .export-option:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .export-option.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .export-option .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .export-option h4 {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .export-option p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .code-preview {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .code-preview pre {
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 250px 1fr;
+            }
+
+            .properties-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .header-title span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-title">
+            <span>&#128221;</span> 가이드 엔진 <span>Guide Builder</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-outline" onclick="clearCanvas()">&#128465; 초기화</button>
+            <button class="btn btn-outline" onclick="previewGuide()">&#128064; 미리보기</button>
+            <button class="btn btn-secondary" onclick="saveGuide()">&#128190; 저장</button>
+            <button class="btn btn-primary" onclick="showExportModal()">&#128229; 내보내기</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar - Components -->
+        <aside class="sidebar">
+            <h3 class="sidebar-title">컴포넌트</h3>
+            <div class="component-list">
+                <div class="component-item" draggable="true" data-type="header">
+                    <div class="component-icon blue">&#128220;</div>
+                    <div class="component-info">
+                        <h4>헤더</h4>
+                        <p>가이드 제목과 설명</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="section-title">
+                    <div class="component-icon purple">&#128196;</div>
+                    <div class="component-info">
+                        <h4>섹션 제목</h4>
+                        <p>아이콘과 제목</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="text">
+                    <div class="component-icon gray">&#128221;</div>
+                    <div class="component-info">
+                        <h4>텍스트</h4>
+                        <p>본문 텍스트</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="step-list">
+                    <div class="component-icon green">&#128203;</div>
+                    <div class="component-info">
+                        <h4>단계별 목록</h4>
+                        <p>순서가 있는 단계</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="tip-box">
+                    <div class="component-icon orange">&#128161;</div>
+                    <div class="component-info">
+                        <h4>팁 박스</h4>
+                        <p>정보, 경고, 팁</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="feature-grid">
+                    <div class="component-icon pink">&#128300;</div>
+                    <div class="component-info">
+                        <h4>기능 그리드</h4>
+                        <p>2x2 기능 카드</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="image">
+                    <div class="component-icon teal">&#128247;</div>
+                    <div class="component-info">
+                        <h4>이미지</h4>
+                        <p>이미지 삽입</p>
+                    </div>
+                </div>
+                <div class="component-item" draggable="true" data-type="divider">
+                    <div class="component-icon gray">&#10134;</div>
+                    <div class="component-info">
+                        <h4>구분선</h4>
+                        <p>섹션 구분</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="sidebar-title" style="margin-top: 30px;">템플릿</h3>
+            <div class="component-list">
+                <div class="component-item" onclick="loadTemplate('basic')">
+                    <div class="component-icon blue">&#128195;</div>
+                    <div class="component-info">
+                        <h4>기본 가이드</h4>
+                        <p>헤더 + 섹션 + 단계</p>
+                    </div>
+                </div>
+                <div class="component-item" onclick="loadTemplate('tutorial')">
+                    <div class="component-icon green">&#127891;</div>
+                    <div class="component-info">
+                        <h4>튜토리얼</h4>
+                        <p>상세 학습 가이드</p>
+                    </div>
+                </div>
+                <div class="component-item" onclick="loadTemplate('faq')">
+                    <div class="component-icon orange">&#10067;</div>
+                    <div class="component-info">
+                        <h4>FAQ</h4>
+                        <p>질문과 답변 형식</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Editor Area -->
+        <main class="editor-area">
+            <div class="editor-canvas" id="editorCanvas">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-icon">&#128196;</div>
+                    <p>컴포넌트를 드래그하여 여기에 놓으세요</p>
+                    <p style="font-size: 0.85rem; color: #94a3b8;">또는 왼쪽 템플릿을 클릭하세요</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Properties Panel -->
+        <aside class="properties-panel">
+            <div class="panel-section">
+                <h3 class="panel-title">가이드 정보</h3>
+                <div class="guide-info">
+                    <div class="guide-info-item">
+                        <span>요소 수</span>
+                        <span id="elementCount">0</span>
+                    </div>
+                    <div class="guide-info-item">
+                        <span>마지막 수정</span>
+                        <span id="lastModified">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section" id="elementProperties" style="display: none;">
+                <h3 class="panel-title">요소 속성</h3>
+                <div id="propertyFields"></div>
+            </div>
+
+            <div class="panel-section">
+                <h3 class="panel-title">가이드 설정</h3>
+                <div class="form-group">
+                    <label>가이드 제목</label>
+                    <input type="text" id="guideTitle" placeholder="사용자 가이드" value="사용자 가이드">
+                </div>
+                <div class="form-group">
+                    <label>테마 색상</label>
+                    <div class="color-options">
+                        <div class="color-option blue selected" data-color="blue" onclick="setThemeColor('blue')"></div>
+                        <div class="color-option purple" data-color="purple" onclick="setThemeColor('purple')"></div>
+                        <div class="color-option green" data-color="green" onclick="setThemeColor('green')"></div>
+                        <div class="color-option orange" data-color="orange" onclick="setThemeColor('orange')"></div>
+                        <div class="color-option red" data-color="red" onclick="setThemeColor('red')"></div>
+                        <div class="color-option pink" data-color="pink" onclick="setThemeColor('pink')"></div>
+                        <div class="color-option teal" data-color="teal" onclick="setThemeColor('teal')"></div>
+                        <div class="color-option gray" data-color="gray" onclick="setThemeColor('gray')"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>가이드 내보내기</h3>
+                <button class="modal-close" onclick="hideExportModal()">&#10005;</button>
+            </div>
+            <div class="export-options">
+                <div class="export-option selected" onclick="selectExportType('html')">
+                    <div class="icon">&#128196;</div>
+                    <h4>HTML 파일</h4>
+                    <p>독립 실행 가능한 HTML</p>
+                </div>
+                <div class="export-option" onclick="selectExportType('json')">
+                    <div class="icon">&#128190;</div>
+                    <h4>JSON 데이터</h4>
+                    <p>나중에 불러오기 가능</p>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="exportGuide()">
+                &#128229; 내보내기
+            </button>
+            <div class="code-preview" id="codePreview" style="display: none;">
+                <pre id="codeContent"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let elements = [];
+        let selectedElement = null;
+        let themeColor = 'blue';
+        let exportType = 'html';
+        let draggedComponent = null;
+
+        // Color mapping
+        const colorMap = {
+            blue: '#3b82f6',
+            purple: '#8b5cf6',
+            green: '#10b981',
+            orange: '#f59e0b',
+            red: '#ef4444',
+            pink: '#ec4899',
+            teal: '#14b8a6',
+            gray: '#64748b'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initDragAndDrop();
+            updateElementCount();
+        });
+
+        // Drag and Drop
+        function initDragAndDrop() {
+            const components = document.querySelectorAll('.component-item[draggable="true"]');
+            const dropZone = document.getElementById('dropZone');
+            const canvas = document.getElementById('editorCanvas');
+
+            components.forEach(comp => {
+                comp.addEventListener('dragstart', (e) => {
+                    draggedComponent = comp.dataset.type;
+                    e.dataTransfer.effectAllowed = 'copy';
+                });
+
+                comp.addEventListener('dragend', () => {
+                    draggedComponent = null;
+                });
+            });
+
+            canvas.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                if (dropZone) dropZone.classList.add('drag-over');
+            });
+
+            canvas.addEventListener('dragleave', (e) => {
+                if (dropZone) dropZone.classList.remove('drag-over');
+            });
+
+            canvas.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (dropZone) dropZone.classList.remove('drag-over');
+
+                if (draggedComponent) {
+                    addElement(draggedComponent);
+                    draggedComponent = null;
+                }
+            });
+        }
+
+        // Add Element
+        function addElement(type) {
+            const element = createElementData(type);
+            elements.push(element);
+            renderElements();
+            updateElementCount();
+            updateLastModified();
+        }
+
+        // Create Element Data
+        function createElementData(type) {
+            const id = 'el_' + Date.now();
+            const defaults = {
+                header: {
+                    id, type,
+                    title: '가이드 제목',
+                    subtitle: '가이드 설명을 입력하세요'
+                },
+                'section-title': {
+                    id, type,
+                    icon: '&#128161;',
+                    title: '섹션 제목',
+                    subtitle: '섹션 설명'
+                },
+                text: {
+                    id, type,
+                    content: '여기에 텍스트를 입력하세요. 본문 내용을 자유롭게 작성할 수 있습니다.'
+                },
+                'step-list': {
+                    id, type,
+                    steps: [
+                        { title: '첫 번째 단계', description: '단계 설명을 입력하세요' },
+                        { title: '두 번째 단계', description: '단계 설명을 입력하세요' },
+                        { title: '세 번째 단계', description: '단계 설명을 입력하세요' }
+                    ]
+                },
+                'tip-box': {
+                    id, type,
+                    variant: 'info',
+                    title: '팁',
+                    content: '유용한 정보를 입력하세요.'
+                },
+                'feature-grid': {
+                    id, type,
+                    features: [
+                        { icon: '&#128640;', title: '기능 1', description: '설명' },
+                        { icon: '&#9889;', title: '기능 2', description: '설명' },
+                        { icon: '&#128273;', title: '기능 3', description: '설명' },
+                        { icon: '&#128200;', title: '기능 4', description: '설명' }
+                    ]
+                },
+                image: {
+                    id, type,
+                    src: '',
+                    alt: '이미지 설명'
+                },
+                divider: {
+                    id, type
+                }
+            };
+            return defaults[type] || { id, type };
+        }
+
+        // Render Elements
+        function renderElements() {
+            const canvas = document.getElementById('editorCanvas');
+
+            if (elements.length === 0) {
+                canvas.innerHTML = `
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-icon">&#128196;</div>
+                        <p>컴포넌트를 드래그하여 여기에 놓으세요</p>
+                        <p style="font-size: 0.85rem; color: #94a3b8;">또는 왼쪽 템플릿을 클릭하세요</p>
+                    </div>
+                `;
+                initDragAndDrop();
+                return;
+            }
+
+            let html = '';
+            elements.forEach((el, index) => {
+                html += renderElement(el, index);
+            });
+            canvas.innerHTML = html;
+        }
+
+        // Render Single Element
+        function renderElement(el, index) {
+            const actions = `
+                <div class="element-actions">
+                    <button class="element-btn edit" onclick="editElement(${index})" title="편집">&#9998;</button>
+                    <button class="element-btn up" onclick="moveElement(${index}, -1)" title="위로">&#9650;</button>
+                    <button class="element-btn down" onclick="moveElement(${index}, 1)" title="아래로">&#9660;</button>
+                    <button class="element-btn delete" onclick="deleteElement(${index})" title="삭제">&#128465;</button>
+                </div>
+            `;
+
+            switch(el.type) {
+                case 'header':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-header">
+                                <h1>${el.title}</h1>
+                                <p>${el.subtitle}</p>
+                            </div>
+                        </div>
+                    `;
+                case 'section-title':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-section-title">
+                                <div class="icon" style="background: ${colorMap[themeColor]}">${el.icon}</div>
+                                <div>
+                                    <h2>${el.title}</h2>
+                                    <p class="subtitle">${el.subtitle}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                case 'text':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-text">
+                                <p>${el.content}</p>
+                            </div>
+                        </div>
+                    `;
+                case 'step-list':
+                    let stepsHtml = el.steps.map((step, i) => `
+                        <div class="step-item">
+                            <div class="step-num" style="background: ${colorMap[themeColor]}">${i + 1}</div>
+                            <div class="step-content">
+                                <h4>${step.title}</h4>
+                                <p>${step.description}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-step-list">${stepsHtml}</div>
+                        </div>
+                    `;
+                case 'tip-box':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-tip-box">
+                                <div class="tip-box ${el.variant}">
+                                    <h4>&#128161; ${el.title}</h4>
+                                    <p>${el.content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                case 'feature-grid':
+                    let featuresHtml = el.features.map(f => `
+                        <div class="feature-card">
+                            <div class="icon" style="background: ${colorMap[themeColor]}">${f.icon}</div>
+                            <h4>${f.title}</h4>
+                            <p>${f.description}</p>
+                        </div>
+                    `).join('');
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-feature-grid">
+                                <div class="feature-grid">${featuresHtml}</div>
+                            </div>
+                        </div>
+                    `;
+                case 'image':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-image">
+                                ${el.src ? `<img src="${el.src}" alt="${el.alt}" style="max-width:100%; border-radius:12px;">` :
+                                `<div class="placeholder">&#128247; 이미지를 추가하세요</div>`}
+                            </div>
+                        </div>
+                    `;
+                case 'divider':
+                    return `
+                        <div class="guide-element" data-index="${index}">
+                            ${actions}
+                            <div class="el-divider"><hr></div>
+                        </div>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        // Element Actions
+        function editElement(index) {
+            selectedElement = index;
+            showProperties(elements[index]);
+        }
+
+        function moveElement(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= elements.length) return;
+
+            [elements[index], elements[newIndex]] = [elements[newIndex], elements[index]];
+            renderElements();
+            updateLastModified();
+        }
+
+        function deleteElement(index) {
+            if (confirm('이 요소를 삭제하시겠습니까?')) {
+                elements.splice(index, 1);
+                renderElements();
+                updateElementCount();
+                updateLastModified();
+            }
+        }
+
+        // Show Properties
+        function showProperties(el) {
+            const panel = document.getElementById('elementProperties');
+            const fields = document.getElementById('propertyFields');
+            panel.style.display = 'block';
+
+            let html = '';
+            switch(el.type) {
+                case 'header':
+                    html = `
+                        <div class="form-group">
+                            <label>제목</label>
+                            <input type="text" value="${el.title}" onchange="updateElement('title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>설명</label>
+                            <input type="text" value="${el.subtitle}" onchange="updateElement('subtitle', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'section-title':
+                    html = `
+                        <div class="form-group">
+                            <label>아이콘 (이모지)</label>
+                            <input type="text" value="${el.icon}" onchange="updateElement('icon', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>제목</label>
+                            <input type="text" value="${el.title}" onchange="updateElement('title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>부제목</label>
+                            <input type="text" value="${el.subtitle}" onchange="updateElement('subtitle', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'text':
+                    html = `
+                        <div class="form-group">
+                            <label>내용</label>
+                            <textarea onchange="updateElement('content', this.value)">${el.content}</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'tip-box':
+                    html = `
+                        <div class="form-group">
+                            <label>유형</label>
+                            <select onchange="updateElement('variant', this.value)">
+                                <option value="info" ${el.variant === 'info' ? 'selected' : ''}>정보</option>
+                                <option value="success" ${el.variant === 'success' ? 'selected' : ''}>성공</option>
+                                <option value="warning" ${el.variant === 'warning' ? 'selected' : ''}>경고</option>
+                                <option value="danger" ${el.variant === 'danger' ? 'selected' : ''}>위험</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>제목</label>
+                            <input type="text" value="${el.title}" onchange="updateElement('title', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>내용</label>
+                            <textarea onchange="updateElement('content', this.value)">${el.content}</textarea>
+                        </div>
+                    `;
+                    break;
+                default:
+                    html = '<p style="color: #64748b; font-size: 0.9rem;">요소를 클릭하여 편집하세요</p>';
+            }
+            fields.innerHTML = html;
+        }
+
+        function updateElement(key, value) {
+            if (selectedElement !== null) {
+                elements[selectedElement][key] = value;
+                renderElements();
+                updateLastModified();
+            }
+        }
+
+        // Theme Color
+        function setThemeColor(color) {
+            themeColor = color;
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.color === color) opt.classList.add('selected');
+            });
+            renderElements();
+        }
+
+        // Templates
+        function loadTemplate(name) {
+            if (elements.length > 0 && !confirm('현재 내용을 덮어쓰시겠습니까?')) return;
+
+            const templates = {
+                basic: [
+                    { type: 'header', title: '사용자 가이드', subtitle: '시작하기 전에 알아야 할 내용들' },
+                    { type: 'section-title', icon: '&#127919;', title: '시작하기', subtitle: '기본 사용법을 알아봅니다' },
+                    { type: 'step-list', steps: [
+                        { title: '첫 번째 단계', description: '기본 설정을 완료합니다' },
+                        { title: '두 번째 단계', description: '주요 기능을 살펴봅니다' },
+                        { title: '세 번째 단계', description: '실전에 적용합니다' }
+                    ]},
+                    { type: 'tip-box', variant: 'info', title: '팁', content: '처음 사용하시는 분들은 순서대로 따라해 보세요.' }
+                ],
+                tutorial: [
+                    { type: 'header', title: '상세 튜토리얼', subtitle: '단계별로 자세히 알아봅니다' },
+                    { type: 'section-title', icon: '&#128218;', title: '개요', subtitle: '전체 흐름 이해하기' },
+                    { type: 'text', content: '이 튜토리얼에서는 핵심 기능들을 단계별로 상세하게 설명합니다.' },
+                    { type: 'divider' },
+                    { type: 'section-title', icon: '&#9881;', title: '기능 소개', subtitle: '주요 기능 알아보기' },
+                    { type: 'feature-grid', features: [
+                        { icon: '&#128640;', title: '빠른 시작', description: '즉시 사용 가능' },
+                        { icon: '&#9889;', title: '강력한 성능', description: '최적화된 처리' },
+                        { icon: '&#128273;', title: '보안', description: '안전한 데이터' },
+                        { icon: '&#128200;', title: '분석', description: '상세 통계 제공' }
+                    ]},
+                    { type: 'tip-box', variant: 'success', title: '완료', content: '튜토리얼을 완료하셨습니다!' }
+                ],
+                faq: [
+                    { type: 'header', title: '자주 묻는 질문', subtitle: 'FAQ' },
+                    { type: 'section-title', icon: '&#10067;', title: '질문 1', subtitle: '어떻게 시작하나요?' },
+                    { type: 'text', content: '시작하기 버튼을 클릭하면 됩니다.' },
+                    { type: 'divider' },
+                    { type: 'section-title', icon: '&#10067;', title: '질문 2', subtitle: '비용이 있나요?' },
+                    { type: 'text', content: '기본 기능은 무료로 제공됩니다.' },
+                    { type: 'divider' },
+                    { type: 'section-title', icon: '&#10067;', title: '질문 3', subtitle: '도움이 필요해요' },
+                    { type: 'text', content: '고객센터로 문의해 주세요.' }
+                ]
+            };
+
+            elements = templates[name].map((el, i) => ({
+                ...el,
+                id: 'el_' + Date.now() + i
+            }));
+            renderElements();
+            updateElementCount();
+            updateLastModified();
+        }
+
+        // Utils
+        function updateElementCount() {
+            document.getElementById('elementCount').textContent = elements.length;
+        }
+
+        function updateLastModified() {
+            const now = new Date();
+            document.getElementById('lastModified').textContent =
+                now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Clear Canvas
+        function clearCanvas() {
+            if (elements.length === 0) return;
+            if (confirm('모든 내용을 삭제하시겠습니까?')) {
+                elements = [];
+                renderElements();
+                updateElementCount();
+            }
+        }
+
+        // Preview
+        function previewGuide() {
+            const html = generateHTML();
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
+        }
+
+        // Save
+        function saveGuide() {
+            const data = {
+                title: document.getElementById('guideTitle').value,
+                themeColor,
+                elements,
+                savedAt: new Date().toISOString()
+            };
+            localStorage.setItem('guideEngineData', JSON.stringify(data));
+            alert('저장되었습니다!');
+        }
+
+        // Load saved data on init
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('guideEngineData');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.elements && data.elements.length > 0) {
+                        if (confirm('이전에 저장한 가이드가 있습니다. 불러오시겠습니까?')) {
+                            elements = data.elements;
+                            themeColor = data.themeColor || 'blue';
+                            document.getElementById('guideTitle').value = data.title || '사용자 가이드';
+                            setThemeColor(themeColor);
+                            renderElements();
+                            updateElementCount();
+                        }
+                    }
+                } catch(e) {}
+            }
+        });
+
+        // Export Modal
+        function showExportModal() {
+            document.getElementById('exportModal').classList.add('active');
+        }
+
+        function hideExportModal() {
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        function selectExportType(type) {
+            exportType = type;
+            document.querySelectorAll('.export-option').forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function exportGuide() {
+            if (exportType === 'html') {
+                const html = generateHTML();
+                downloadFile('guide.html', html, 'text/html');
+            } else {
+                const json = JSON.stringify({
+                    title: document.getElementById('guideTitle').value,
+                    themeColor,
+                    elements
+                }, null, 2);
+                downloadFile('guide.json', json, 'application/json');
+            }
+        }
+
+        function downloadFile(filename, content, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate HTML
+        function generateHTML() {
+            const title = document.getElementById('guideTitle').value;
+            const color = colorMap[themeColor];
+
+            let bodyContent = elements.map(el => {
+                switch(el.type) {
+                    case 'header':
+                        return `<div class="header"><h1>${el.title}</h1><p>${el.subtitle}</p></div>`;
+                    case 'section-title':
+                        return `<div class="section-title"><div class="icon">${el.icon}</div><div><h2>${el.title}</h2><p>${el.subtitle}</p></div></div>`;
+                    case 'text':
+                        return `<div class="text-block"><p>${el.content}</p></div>`;
+                    case 'step-list':
+                        return `<div class="step-list">${el.steps.map((s,i) =>
+                            `<div class="step"><div class="num">${i+1}</div><div><h4>${s.title}</h4><p>${s.description}</p></div></div>`
+                        ).join('')}</div>`;
+                    case 'tip-box':
+                        return `<div class="tip-box ${el.variant}"><h4>${el.title}</h4><p>${el.content}</p></div>`;
+                    case 'feature-grid':
+                        return `<div class="feature-grid">${el.features.map(f =>
+                            `<div class="feature"><div class="icon">${f.icon}</div><h4>${f.title}</h4><p>${f.description}</p></div>`
+                        ).join('')}</div>`;
+                    case 'divider':
+                        return '<hr class="divider">';
+                    default:
+                        return '';
+                }
+            }).join('\n');
+
+            return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Noto Sans KR',sans-serif; background:#f5f5f5; color:#1e293b; line-height:1.8; }
+        .container { max-width:800px; margin:0 auto; padding:40px 20px; }
+        .header { background:linear-gradient(135deg,#1e293b,#334155); color:white; padding:40px; border-radius:16px; text-align:center; margin-bottom:30px; }
+        .header h1 { font-size:2rem; margin-bottom:10px; }
+        .header p { opacity:0.85; }
+        .section-title { display:flex; align-items:center; gap:15px; padding:20px 0; }
+        .section-title .icon { width:50px; height:50px; background:${color}; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; }
+        .section-title h2 { font-size:1.4rem; }
+        .section-title p { color:#64748b; font-size:0.9rem; }
+        .text-block { padding:15px 0; }
+        .text-block p { color:#475569; }
+        .step-list { padding:20px 0; }
+        .step { display:flex; gap:15px; padding:15px 0; border-bottom:1px solid #e2e8f0; }
+        .step:last-child { border-bottom:none; }
+        .step .num { width:36px; height:36px; background:${color}; color:white; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; }
+        .step h4 { margin-bottom:5px; }
+        .step p { color:#64748b; font-size:0.9rem; }
+        .tip-box { padding:20px; border-radius:12px; margin:20px 0; border-left:4px solid; }
+        .tip-box.info { background:#eff6ff; border-color:#3b82f6; }
+        .tip-box.success { background:#f0fdf4; border-color:#10b981; }
+        .tip-box.warning { background:#fffbeb; border-color:#f59e0b; }
+        .tip-box.danger { background:#fef2f2; border-color:#ef4444; }
+        .tip-box h4 { margin-bottom:8px; }
+        .tip-box p { color:#64748b; font-size:0.9rem; }
+        .feature-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; padding:20px 0; }
+        .feature { background:white; padding:25px; border-radius:12px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+        .feature .icon { width:50px; height:50px; background:${color}; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px; }
+        .feature h4 { margin-bottom:5px; }
+        .feature p { color:#64748b; font-size:0.85rem; }
+        .divider { border:none; height:1px; background:linear-gradient(to right,transparent,#cbd5e1,transparent); margin:30px 0; }
+        @media(max-width:600px) { .feature-grid { grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        ${bodyContent}
+    </div>
+</body>
+</html>`;
+        }
+    </script>
+</body>
+</html>
