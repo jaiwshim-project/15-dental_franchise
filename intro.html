@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아카데미 소개 | 덴탈클리닉파인더 치과 환자상담 AI 아카데미</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --primary-dark: #134b61;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --dark: #1a1a2e;
+            --gray: #6b7280;
+            --light: #f8f9fa;
+            --gold: #ffd700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: var(--dark);
+            background: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a5f7a 0%, #134b61 40%, #0c3547 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .hero-logo span {
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.3;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--secondary);
+        }
+
+        .hero-patent {
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            padding: 15px 30px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            display: inline-block;
+        }
+
+        .hero-patent strong {
+            color: white;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, #f5c400 100%);
+            color: var(--dark);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* Section Base */
+        section {
+            padding: 100px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .section-header p {
+            font-size: 1.15rem;
+            color: var(--gray);
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .problem-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .problem-card p {
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Philosophy Section */
+        .philosophy-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+        }
+
+        .philosophy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .philosophy-quote {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .philosophy-quote .gold {
+            color: var(--gold);
+        }
+
+        .philosophy-desc {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 2;
+        }
+
+        /* 5 Stage Section */
+        .stage-section {
+            background: white;
+        }
+
+        .stage-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .stage-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stage-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stage-circle.s1 { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .stage-circle.s2 { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .stage-circle.s3 { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .stage-circle.s4 { background: linear-gradient(135deg, #10b981, #34d399); }
+        .stage-circle.s5 { background: linear-gradient(135deg, #ef4444, #f87171); }
+
+        .stage-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .stage-arrow {
+            font-size: 2rem;
+            color: #d1d5db;
+        }
+
+        .stage-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stage-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid;
+            transition: all 0.3s;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .stage-card.s1 { border-color: #3b82f6; }
+        .stage-card.s2 { border-color: #8b5cf6; }
+        .stage-card.s3 { border-color: #f59e0b; }
+        .stage-card.s4 { border-color: #10b981; }
+        .stage-card.s5 { border-color: #ef4444; }
+
+        .stage-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stage-card-num {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .stage-card.s1 .stage-card-num { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .stage-card.s2 .stage-card-num { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .stage-card.s3 .stage-card-num { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .stage-card.s4 .stage-card-num { background: linear-gradient(135deg, #10b981, #34d399); }
+        .stage-card.s5 .stage-card-num { background: linear-gradient(135deg, #ef4444, #f87171); }
+
+        .stage-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .stage-card p {
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .stage-card .summary {
+            background: rgba(0,0,0,0.03);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* QLRCQ Section */
+        .qlrcq-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .qlrcq-section .section-header h2 {
+            color: white;
+        }
+
+        .qlrcq-section .section-header p {
+            color: rgba(255,255,255,0.85);
+        }
+
+        .qlrcq-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .qlrcq-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qlrcq-circle {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .qlrcq-circle.q { color: #3b82f6; }
+        .qlrcq-circle.l { color: #8b5cf6; }
+        .qlrcq-circle.r { color: #f59e0b; }
+        .qlrcq-circle.c { color: #10b981; }
+
+        .qlrcq-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .qlrcq-arrow {
+            font-size: 1.8rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .qlrcq-desc {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .qlrcq-desc p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .qlrcq-highlight {
+            background: rgba(255,255,255,0.15);
+            padding: 25px 35px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* Courses Section */
+        .courses-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+        }
+
+        .course-header {
+            padding: 30px;
+            color: white;
+        }
+
+        .course-card:nth-child(1) .course-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .course-card:nth-child(2) .course-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .course-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .course-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .course-body {
+            padding: 30px;
+        }
+
+        .course-features {
+            list-style: none;
+        }
+
+        .course-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .course-features li:last-child {
+            border-bottom: none;
+        }
+
+        .course-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .resource-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
+        }
+
+        .resource-card:nth-child(1) .resource-icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .resource-card:nth-child(2) .resource-icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .resource-card:nth-child(3) .resource-icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .resource-card:nth-child(4) .resource-icon { background: linear-gradient(135deg, #10b981, #34d399); }
+        .resource-card:nth-child(5) .resource-icon { background: linear-gradient(135deg, #ef4444, #f87171); }
+        .resource-card:nth-child(6) .resource-icon { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+        .resource-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .resource-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* AI Tutor Section */
+        .ai-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .ai-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .ai-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .ai-header p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .ai-feature {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .ai-feature:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-3px);
+        }
+
+        .ai-feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
+        }
+
+        .ai-feature h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .ai-feature p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* Instructors Section */
+        .instructors-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .instructor-card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .instructor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .instructor-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+            color: white;
+        }
+
+        .instructor-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .instructor-role {
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .instructor-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 35px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .cta-buttons .btn-outline {
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 50px 5% 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-desc {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-copyright {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-badge {
+                font-size: 0.95rem;
+                padding: 10px 20px;
+            }
+
+            .hero-patent {
+                font-size: 0.85rem;
+                padding: 12px 20px;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .stage-flow, .qlrcq-flow {
+                gap: 10px;
+            }
+
+            .stage-circle {
+                width: 55px;
+                height: 55px;
+                font-size: 1.1rem;
+            }
+
+            .stage-arrow, .qlrcq-arrow {
+                font-size: 1.3rem;
+            }
+
+            .philosophy-quote {
+                font-size: 1.4rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-content h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .hero {
+                min-height: auto;
+                padding: 40px;
+            }
+
+            section {
+                padding: 40px;
+                page-break-inside: avoid;
+            }
+
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">덴탈클리닉<span>파인더</span></div>
+            <span class="hero-badge">치과 환자상담 AI 아카데미</span>
+            <h1>설득의 시대는 끝났습니다<br><span class="highlight">이제는 환자의 결정을 돕는<br>상담의 시대입니다</span></h1>
+            <p class="hero-patent">저작권과 특허로 등록된 <strong>'환자상담 5단계(공감-이해-결정권-가치-신뢰)'</strong> 기법에 기반한 검증된 솔루션!</p>
+            <p class="hero-desc">환자가 스스로 결정하고, 신뢰가 남는 상담 구조를 배웁니다</p>
+            <div class="hero-cta">
+                <a href="index.html" class="btn btn-primary">아카데미 바로가기</a>
+                <a href="index.html#free" class="btn btn-outline">무료 강의 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="section-header">
+            <span class="section-badge">WHY</span>
+            <h2>왜 설명은 열심히 했는데,<br>환자는 망설일까요?</h2>
+            <p>많은 치과에서 경험하는 상담의 딜레마</p>
+        </div>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-icon">&#128172;</div>
+                <h3>설명은 충분히 했는데...</h3>
+                <p>환자가 "생각해볼게요"라고 말하며 돌아갑니다. 무엇이 부족했던 걸까요?</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#128176;</div>
+                <h3>비용 얘기만 나오면...</h3>
+                <p>환자의 표정이 달라집니다. 가격이 문제일까요, 가치 전달이 문제일까요?</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#129300;</div>
+                <h3>환자가 결정을 미루면...</h3>
+                <p>더 설득해야 할지, 기다려야 할지 판단이 어렵습니다.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#128548;</div>
+                <h3>상담이 점점 부담스러워...</h3>
+                <p>잘 해야 한다는 압박감에 상담 자체가 스트레스가 됩니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy-section">
+        <div class="philosophy-content">
+            <span class="section-badge" style="background: rgba(255,255,255,0.2);">OUR PHILOSOPHY</span>
+            <p class="philosophy-quote">
+                기존의 <span class="gold">'설득'</span> 방식은<br>
+                더 이상 효과적이지 않습니다.<br><br>
+                환자는 설득당하고 싶지 않습니다.<br>
+                <span class="gold">스스로 결정하고 싶어합니다.</span>
+            </p>
+            <p class="philosophy-desc">
+                덴탈클리닉파인더 환자상담 아카데미는<br>
+                환자가 스스로 결정하고, 상담 후에도 신뢰가 남는<br>
+                <strong>구조화된 상담 프로세스</strong>를 교육합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5 Stage Section -->
+    <section class="stage-section">
+        <div class="section-header">
+            <span class="section-badge">CORE METHOD</span>
+            <h2>환자상담 5단계</h2>
+            <p>공감 – 이해 – 결정권 – 가치 – 신뢰</p>
+        </div>
+
+        <div class="stage-flow">
+            <div class="stage-item">
+                <div class="stage-circle s1">1</div>
+                <span class="stage-label">공감</span>
+            </div>
+            <span class="stage-arrow">→</span>
+            <div class="stage-item">
+                <div class="stage-circle s2">2</div>
+                <span class="stage-label">이해</span>
+            </div>
+            <span class="stage-arrow">→</span>
+            <div class="stage-item">
+                <div class="stage-circle s3">3</div>
+                <span class="stage-label">결정권</span>
+            </div>
+            <span class="stage-arrow">→</span>
+            <div class="stage-item">
+                <div class="stage-circle s4">4</div>
+                <span class="stage-label">가치</span>
+            </div>
+            <span class="stage-arrow">→</span>
+            <div class="stage-item">
+                <div class="stage-circle s5">5</div>
+                <span class="stage-label">신뢰</span>
+            </div>
+        </div>
+
+        <div class="stage-cards">
+            <div class="stage-card s1">
+                <div class="stage-card-header">
+                    <div class="stage-card-num">1</div>
+                    <h3>공감</h3>
+                </div>
+                <p>환자의 감정을 먼저 안전하게 만드는 단계입니다. 정보가 아닌 심리적 안전이 핵심입니다.</p>
+                <div class="summary">→ 설명을 시작하기 전에, 마음의 문을 여는 단계</div>
+            </div>
+            <div class="stage-card s2">
+                <div class="stage-card-header">
+                    <div class="stage-card-num">2</div>
+                    <h3>이해</h3>
+                </div>
+                <p>환자가 스스로 이해했다고 느끼는 단계입니다. 의사의 설명이 아닌, 환자의 사고 정리가 목표입니다.</p>
+                <div class="summary">→ 정보 전달이 아닌, 사고 정리의 단계</div>
+            </div>
+            <div class="stage-card s3">
+                <div class="stage-card-header">
+                    <div class="stage-card-num">3</div>
+                    <h3>결정권 제공</h3>
+                </div>
+                <p>결정의 주인을 환자에게 돌려주는 단계입니다. 선택지는 제시하되, 방향은 강요하지 않습니다.</p>
+                <div class="summary">→ 결정을 빠르게가 아닌, 결정의 질을 높이는 단계</div>
+            </div>
+            <div class="stage-card s4">
+                <div class="stage-card-header">
+                    <div class="stage-card-num">4</div>
+                    <h3>가치 전달</h3>
+                </div>
+                <p>환자의 기준과 연결하는 단계입니다. 가치는 전달되는 것이 아니라, 환자가 스스로 연결할 때 완성됩니다.</p>
+                <div class="summary">→ 설명이 아닌, 납득의 단계</div>
+            </div>
+            <div class="stage-card s5">
+                <div class="stage-card-header">
+                    <div class="stage-card-num">5</div>
+                    <h3>신뢰 형성</h3>
+                </div>
+                <p>안심으로 마무리하는 단계입니다. 결정을 받는 것이 아니라, 관계를 고정시키는 것이 목표입니다.</p>
+                <div class="summary">→ 결정을 관계로 바꾸는 단계</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QLRCQ Section -->
+    <section class="qlrcq-section">
+        <div class="section-header">
+            <span class="section-badge" style="background: rgba(255,255,255,0.2);">COMMUNICATION SKILL</span>
+            <h2>QLRCQ 대화 기법</h2>
+            <p>설득 없이 결정을 이끌어내는 순환 구조</p>
+        </div>
+
+        <div class="qlrcq-flow">
+            <div class="qlrcq-item">
+                <div class="qlrcq-circle q">Q</div>
+                <span class="qlrcq-label">Question<br>질문</span>
+            </div>
+            <span class="qlrcq-arrow">→</span>
+            <div class="qlrcq-item">
+                <div class="qlrcq-circle l">L</div>
+                <span class="qlrcq-label">Listen<br>경청</span>
+            </div>
+            <span class="qlrcq-arrow">→</span>
+            <div class="qlrcq-item">
+                <div class="qlrcq-circle r">R</div>
+                <span class="qlrcq-label">Reflect<br>반영</span>
+            </div>
+            <span class="qlrcq-arrow">→</span>
+            <div class="qlrcq-item">
+                <div class="qlrcq-circle c">C</div>
+                <span class="qlrcq-label">Confirm<br>확인</span>
+            </div>
+            <span class="qlrcq-arrow">→</span>
+            <div class="qlrcq-item">
+                <div class="qlrcq-circle q">Q</div>
+                <span class="qlrcq-label">Question<br>다음 질문</span>
+            </div>
+        </div>
+
+        <div class="qlrcq-desc">
+            <p>
+                QLRCQ는 환자 스스로 결론에 도달하도록 유도하는 대화 기법입니다.<br>
+                질문으로 시작하여, 경청하고, 반영하고, 확인한 후<br>
+                다음 질문으로 이어가는 순환 구조입니다.
+            </p>
+            <div class="qlrcq-highlight">
+                "설득하지 않아도 환자가 스스로 결정합니다"
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses-section">
+        <div class="section-header">
+            <span class="section-badge">CURRICULUM</span>
+            <h2>강의 커리큘럼</h2>
+            <p>체계적인 학습을 위한 2개의 메인 코스</p>
+        </div>
+
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <span class="course-badge">COURSE A01</span>
+                    <h3>설득의 종말</h3>
+                    <p>새로운 상담 패러다임의 시작</p>
+                </div>
+                <div class="course-body">
+                    <ul class="course-features">
+                        <li>왜 기존 설득 방식이 효과가 없는가</li>
+                        <li>환자 심리와 의사결정 구조 이해</li>
+                        <li>설득에서 지원으로의 전환</li>
+                        <li>새로운 상담 철학 정립</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-card">
+                <div class="course-header">
+                    <span class="course-badge">COURSE A02</span>
+                    <h3>성공적인 환자 상담</h3>
+                    <p>5단계 상담 구조 마스터</p>
+                </div>
+                <div class="course-body">
+                    <ul class="course-features">
+                        <li>환자상담 5단계 완벽 이해</li>
+                        <li>QLRCQ 대화 기법 실습</li>
+                        <li>단계별 실전 화법과 표현</li>
+                        <li>다양한 상황별 시나리오 훈련</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="section-header">
+            <span class="section-badge">RESOURCES</span>
+            <h2>제공 자료</h2>
+            <p>실전에 바로 적용할 수 있는 다양한 자료</p>
+        </div>
+
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">&#9745;</div>
+                <h4>상담 체크리스트</h4>
+                <p>5단계별 75개 체크 항목</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128172;</div>
+                <h4>상담 문장 카드</h4>
+                <p>100개 실전 문장 예시</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128300;</div>
+                <h4>QLRCQ 요약본</h4>
+                <p>핵심 기법 정리</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128196;</div>
+                <h4>상담 시나리오</h4>
+                <p>31개 상황별 시나리오</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128218;</div>
+                <h4>사용자 가이드북</h4>
+                <p>아카데미 활용 가이드</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#129302;</div>
+                <h4>AI 환자상담튜터</h4>
+                <p>실전 롤플레이 연습</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Tutor Section -->
+    <section class="ai-section">
+        <div class="ai-content">
+            <div class="ai-header">
+                <span class="ai-badge">&#129302; AI POWERED</span>
+                <h2>AI 환자상담튜터</h2>
+                <p>언제 어디서나 실전 같은 롤플레이 연습</p>
+            </div>
+
+            <div class="ai-features">
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">&#128337;</div>
+                    <h4>24시간 연습</h4>
+                    <p>시간과 장소에 구애받지 않고 원하는 만큼 연습</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">&#127917;</div>
+                    <h4>다양한 시나리오</h4>
+                    <p>비용 문의, 치료 거부 등 다양한 상황 시뮬레이션</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">&#128172;</div>
+                    <h4>즉각적 피드백</h4>
+                    <p>대화 중 적절한 응답 방법에 대한 힌트 제공</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">&#128200;</div>
+                    <h4>반복 학습</h4>
+                    <p>같은 시나리오를 반복하며 최적의 응답 찾기</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section class="instructors-section">
+        <div class="section-header">
+            <span class="section-badge">INSTRUCTORS</span>
+            <h2>전문 강사진</h2>
+            <p>현장 경험과 전문성을 갖춘 강사들</p>
+        </div>
+
+        <div class="instructors-grid">
+            <div class="instructor-card">
+                <div class="instructor-avatar">&#128104;&#8205;&#128188;</div>
+                <h3>심재우</h3>
+                <p class="instructor-role">CEO</p>
+                <p class="instructor-desc">환자상담 5단계 기법 개발자<br>20년 이상의 컨설팅 경험</p>
+            </div>
+            <div class="instructor-card">
+                <div class="instructor-avatar">&#128104;&#8205;&#9877;&#65039;</div>
+                <h3>임영일</h3>
+                <p class="instructor-role">CCO</p>
+                <p class="instructor-desc">치과 경영 전문가<br>다수 치과 컨설팅 경력</p>
+            </div>
+            <div class="instructor-card">
+                <div class="instructor-avatar">&#128104;&#8205;&#128187;</div>
+                <h3>이용식</h3>
+                <p class="instructor-role">CMO</p>
+                <p class="instructor-desc">마케팅 전략 전문가<br>헬스케어 마케팅 다수 경험</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>이제, 설득하지 마십시오<br>환자의 결정을 도와주십시오</h2>
+            <p>덴탈클리닉파인더 환자상담 아카데미와 함께<br>새로운 상담의 시대를 열어가세요</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">아카데미 시작하기</a>
+                <a href="index.html#free" class="btn btn-outline">무료 강의 먼저 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">덴탈클리닉<span>파인더</span></div>
+        <p class="footer-desc">치과 환자상담 AI 아카데미</p>
+        <div class="footer-links">
+            <a href="index.html">홈</a>
+            <a href="index.html#courses">강의 영상</a>
+            <a href="index.html#resources">자료실</a>
+            <a href="index.html#instructors">강사 소개</a>
+            <a href="guidebook.html">가이드북</a>
+        </div>
+        <div class="footer-copyright">
+            <p>&copy; 2025 덴탈클리닉파인더. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
