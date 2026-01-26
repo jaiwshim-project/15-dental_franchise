@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>덴탈클리닉파인더 환자상담 아카데미</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a5f7a;
+            --primary-dark: #134b61;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0 5%;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-menu .btn-login {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-menu .btn-login:hover {
+            background: var(--primary-dark);
+        }
+
+        .nav-menu .btn-courses {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-menu .btn-courses:hover {
+            background: linear-gradient(135deg, #ee5a5a, #f5b942);
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #1a5f7a 0%, #134b61 50%, #0d3d4f 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 70px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 5%;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(87, 197, 182, 0.2);
+            color: var(--secondary);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+            border: 1px solid rgba(87, 197, 182, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--secondary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: #4db8a9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(87, 197, 182, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* Section Common */
+        section {
+            padding: 100px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: var(--light);
+        }
+
+        .problem-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent);
+        }
+
+        .problem-card h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .problem-card p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Paradigm Section */
+        .paradigm-section {
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .paradigm-section .section-header h2 {
+            color: white;
+        }
+
+        .paradigm-section .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .paradigm-quote {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+        }
+
+        .paradigm-text {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+        /* Framework Section */
+        .framework-section {
+            background: white;
+        }
+
+        .framework-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .framework-card {
+            background: var(--light);
+            padding: 35px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .framework-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .framework-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .framework-card h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .framework-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Curriculum Section */
+        .curriculum-section {
+            background: var(--light);
+        }
+
+        .curriculum-tracks {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+        }
+
+        .track {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+        }
+
+        .track-header {
+            padding: 35px 40px;
+            color: white;
+        }
+
+        .track-1 .track-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .track-2 .track-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .track-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .track-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .track-content {
+            padding: 30px 40px;
+        }
+
+        .track-list {
+            list-style: none;
+        }
+
+        .track-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.98rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .track-list li:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .track-list li:last-child {
+            border-bottom: none;
+        }
+
+        .track-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Target Section */
+        .target-section {
+            background: white;
+        }
+
+        .target-cards {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .target-card {
+            background: linear-gradient(145deg, var(--light) 0%, white 100%);
+            padding: 45px 35px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .target-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .target-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .target-card h3 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .target-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Usage Section */
+        .usage-section {
+            background: var(--light);
+        }
+
+        .usage-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .usage-item {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .usage-item h4 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .usage-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            text-align: center;
+            color: white;
+            padding: 100px 5%;
+        }
+
+        .cta-section h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .cta-section .btn-primary:hover {
+            background: var(--light);
+        }
+
+        /* Video List Page Styles */
+        .page {
+            display: none;
+            padding-top: 70px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 60px 5%;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .video-list-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 5%;
+        }
+
+        .video-item {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .video-item:hover {
+            transform: translateX(10px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-number {
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .video-info {
+            flex: 1;
+        }
+
+        .video-info h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .video-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .video-duration {
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .video-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .video-badge.locked {
+            background: #ff6b9d;
+        }
+
+        /* Free Lessons Section */
+        .free-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 5%;
+            color: white;
+            text-align: center;
+        }
+
+        .free-section h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .free-videos {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .free-video-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .free-video-card:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+        }
+
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #764ba2;
+            flex-shrink: 0;
+        }
+
+        .free-video-card h3 {
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        /* Resources Page */
+        .resources-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .resource-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--light);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+        }
+
+        .resource-card h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .resource-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .resource-card .btn {
+            padding: 12px 24px;
+            font-size: 0.9rem;
+        }
+
+        /* Login Page */
+        .login-container {
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 50px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .login-container .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .login-container .btn {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .login-links {
+            text-align: center;
+        }
+
+        .login-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .video-placeholder {
+            background: var(--dark);
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            margin-bottom: 25px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--dark);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-thumbnail-link {
+            display: block;
+            text-decoration: none;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--dark);
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            display: block;
+        }
+
+        .play-button-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s;
+        }
+
+        .video-thumbnail:hover .play-button-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .watch-on-youtube {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .video-thumbnail:hover .watch-on-youtube {
+            background: #FF0000;
+        }
+
+        .video-player-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 25px;
+        }
+
+        .video-player-container video {
+            width: 100%;
+            display: block;
+            max-height: 70vh;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.7);
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Brand News Links */
+        .news-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 14px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .news-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-color: transparent;
+        }
+
+        .news-link.blue:hover {
+            background: linear-gradient(135deg, #1a5f7a 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .news-link.teal:hover {
+            background: linear-gradient(135deg, #159895 0%, #1abc9c 100%);
+            color: white;
+        }
+
+        .news-link.red:hover {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .news-link:hover .news-icon {
+            transform: scale(1.2);
+        }
+
+        .news-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .curriculum-tracks {
+                grid-template-columns: 1fr;
+            }
+
+            .paradigm-quote {
+                font-size: 1.5rem;
+            }
+
+            .track-content {
+                padding: 20px 25px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">덴탈클리닉<span>파인더</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">&#9776;</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#about">강의 소개</a></li>
+                <li><a href="#courses" class="btn-courses">강의 영상</a></li>
+                <li><a href="#free">무료 강의</a></li>
+                <li><a href="#resources">자료실</a></li>
+                <li><a href="#instructors">강사 소개</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <span class="hero-badge">치과 환자상담 아카데미</span>
+                <h1>설득의 시대는 끝났습니다<br><span class="highlight">이제는 환자의 결정을 돕는 상담의 시대입니다</span></h1>
+                <p class="hero-subtitle">덴탈클리닉파인더 환자상담 아카데미</p>
+                <p class="hero-desc">환자가 스스로 결정하고, 신뢰가 남는 상담 구조를 배웁니다</p>
+                <div class="hero-buttons">
+                    <a href="#curriculum1" class="btn btn-primary">강의 커리큘럼 보기</a>
+                    <a href="#free" class="btn btn-outline">무료 영상 먼저 보기</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="problem-section">
+            <div class="section-header">
+                <h2>왜 설명은 열심히 했는데,<br>환자는 망설일까요?</h2>
+                <p>많은 치과에서 경험하는 상담의 딜레마</p>
+            </div>
+            <div class="problem-cards">
+                <div class="problem-card">
+                    <h3>설득이 시작되는 순간</h3>
+                    <p>환자의 방어는 높아집니다. 설득하려 할수록 환자는 마음의 문을 닫습니다.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>설명이 많을수록</h3>
+                    <p>환자는 더 불안해집니다. 정보 과잉은 결정을 방해하는 가장 큰 원인입니다.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>결정하지 않는 환자</h3>
+                    <p>우유부단한 것이 아닙니다. 결정할 수 없게 만든 상담 구조가 문제입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paradigm Section -->
+        <section class="paradigm-section">
+            <div class="section-header">
+                <h2>이 강의는 '설득하는 법'을<br>가르치지 않습니다</h2>
+            </div>
+            <p class="paradigm-quote">"설득을 멈출 때,<br>상담은 시작됩니다"</p>
+            <p class="paradigm-text">
+                이 강의는 환자를 설득하는 기술이 아니라<br>
+                환자가 스스로 고개를 끄덕이게 만드는<br>
+                상담의 구조와 흐름을 다룹니다.
+            </p>
+        </section>
+
+        <!-- Framework Section -->
+        <section class="framework-section">
+            <div class="section-header">
+                <h2>성공적인 환자 상담은<br>구조로 완성됩니다</h2>
+                <p>구조에는 생명이, 기법에는 방향이 있어야 합니다</p>
+            </div>
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <div class="framework-icon">1</div>
+                    <h3>환자상담 5단계 구조</h3>
+                    <p>상담의 순서를 정립하는 기본 프레임워크</p>
+                </div>
+                <div class="framework-card">
+                    <div class="framework-icon">Q</div>
+                    <h3>QLRCQ 기법</h3>
+                    <p>각 단계에서의 방향을 제시하는 대화 구조</p>
+                </div>
+                <div class="framework-card">
+                    <div class="framework-icon">&#10003;</div>
+                    <h3>결정권 제공</h3>
+                    <p>환자의 기준을 존중하는 상담 철학</p>
+                </div>
+                <div class="framework-card">
+                    <div class="framework-icon">&#9733;</div>
+                    <h3>가치 전달</h3>
+                    <p>설득 없는 선택의 완성</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Curriculum Preview Section -->
+        <section class="curriculum-section">
+            <div class="section-header">
+                <h2>이렇게 학습합니다</h2>
+                <p>2개의 핵심 트랙으로 구성된 체계적인 커리큘럼</p>
+            </div>
+            <div class="curriculum-tracks">
+                <div class="track track-1">
+                    <div class="track-header">
+                        <h3>A01. 설득의 종말</h3>
+                        <p>기존 상담 패러다임을 해체하는 인식 전환 강의</p>
+                    </div>
+                    <div class="track-content">
+                        <ul class="track-list">
+                            <li>설득의 종말</li>
+                            <li>설득, 왜 항상 어려울까?</li>
+                            <li>사람은 '논리'가 아닌 '안전'으로 결정한다</li>
+                            <li>The QLRCQ Cycle: 설득을 대체하는 의사결정 구조</li>
+                            <li>QLRCQ: 질문을 멈추지 않는 의사결정 구조</li>
+                        </ul>
+                        <a href="#curriculum1" class="btn btn-primary" style="margin-top: 20px;">전체 커리큘럼 보기</a>
+                    </div>
+                </div>
+                <div class="track track-2">
+                    <div class="track-header">
+                        <h3>A02. 성공적인 환자 상담의 완성</h3>
+                        <p>실제 상담을 완성시키는 구조 중심 강의</p>
+                    </div>
+                    <div class="track-content">
+                        <ul class="track-list">
+                            <li>성공적인 상담이란 무엇인가</li>
+                            <li>환자 상담 5단계 전체 구조 복습</li>
+                            <li>QLRCQ가 상담을 흔들리지 않게 만드는 이유</li>
+                            <li>결정권 제공이 매출을 떨어뜨리지 않는 이유</li>
+                            <li>"여기서 하길 잘했다"가 남는 상담</li>
+                        </ul>
+                        <a href="#curriculum2" class="btn btn-primary" style="margin-top: 20px;">전체 커리큘럼 보기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Target Section -->
+        <section class="target-section">
+            <div class="section-header">
+                <h2>누구를 위한 강의인가</h2>
+                <p>각 역할에 맞는 상담 역량을 키워드립니다</p>
+            </div>
+            <div class="target-cards">
+                <div class="target-card">
+                    <div class="target-icon">&#128105;&#8205;&#9877;&#65039;</div>
+                    <h3>원장님</h3>
+                    <p>매번 같은 설명을 반복하지 않아도 되는<br>상담의 기준을 세웁니다</p>
+                </div>
+                <div class="target-card">
+                    <div class="target-icon">&#128100;</div>
+                    <h3>상담사</h3>
+                    <p>환자의 반응에 흔들리지 않는<br>상담 구조를 익힙니다</p>
+                </div>
+                <div class="target-card">
+                    <div class="target-icon">&#128105;&#8205;&#9877;&#65039;</div>
+                    <h3>간호사</h3>
+                    <p>신뢰를 쌓고 상담을 연결하는<br>역할을 정립합니다</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage Section -->
+        <section class="usage-section">
+            <div class="section-header">
+                <h2>이 강의는 이렇게 활용됩니다</h2>
+            </div>
+            <div class="usage-grid">
+                <div class="usage-item">
+                    <h4>병원 내부 교육 표준화</h4>
+                    <p>일관된 상담 품질 유지</p>
+                </div>
+                <div class="usage-item">
+                    <h4>신규 직원 온보딩</h4>
+                    <p>빠른 상담 역량 향상</p>
+                </div>
+                <div class="usage-item">
+                    <h4>상담 품질 관리 기준</h4>
+                    <p>객관적 평가 체계 수립</p>
+                </div>
+                <div class="usage-item">
+                    <h4>AI 환자상담튜터 연계</h4>
+                    <p>실전 롤플레이 학습</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>이제, 설득하지 마십시오<br>환자의 결정을 도와주십시오</h2>
+            <p>덴탈클리닉파인더 환자상담 아카데미와 함께 시작하세요</p>
+            <div class="hero-buttons">
+                <a href="#curriculum1" class="btn btn-primary">전체 강의 보러 가기</a>
+                <a href="#free" class="btn btn-outline">무료 맛보기 강의 보기</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="page-header">
+            <h1>강의 소개</h1>
+            <p>설득의 종말, 그리고 새로운 상담의 시작</p>
+        </div>
+        <section style="max-width: 800px; margin: 0 auto; padding: 60px 5%;">
+            <h2 style="margin-bottom: 30px; color: var(--dark);">강의 철학</h2>
+            <p style="font-size: 1.1rem; color: var(--gray); line-height: 2; margin-bottom: 40px;">
+                덴탈클리닉파인더 환자상담 아카데미는 단순한 상담 기술을 가르치지 않습니다.
+                우리는 환자와의 관계에서 '설득'이라는 패러다임이 더 이상 유효하지 않다고 믿습니다.
+            </p>
+
+            <h3 style="margin-bottom: 20px; color: var(--primary);">설득의 종말이 의미하는 것</h3>
+            <p style="font-size: 1.05rem; color: var(--gray); line-height: 2; margin-bottom: 40px;">
+                설득은 상담자의 의도를 환자에게 전달하는 행위입니다.
+                하지만 현대의 환자들은 정보에 노출되어 있고, 선택권을 존중받기를 원합니다.
+                설득이 시작되는 순간, 환자의 방어 기제는 자동으로 작동합니다.
+                이 강의는 그 구조를 이해하고, 대안적 접근법을 제시합니다.
+            </p>
+
+            <h3 style="margin-bottom: 20px; color: var(--primary);">성공적인 환자 상담의 정의</h3>
+            <p style="font-size: 1.05rem; color: var(--gray); line-height: 2; margin-bottom: 40px;">
+                성공적인 상담은 환자가 치료를 결정하는 것만이 아닙니다.
+                환자가 스스로 결정했다고 느끼고, 그 병원에 대한 신뢰가 남는 것.
+                이것이 우리가 정의하는 성공적인 상담입니다.
+            </p>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="#curriculum1" class="btn btn-primary">커리큘럼 살펴보기</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Curriculum 1 Page - 설득의 종말 -->
+    <div id="curriculum1" class="page">
+        <div class="page-header" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+            <h1>A01. 설득의 종말</h1>
+            <p>왜 더 이상 환자를 설득해서는 안 되는가</p>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-top: 25px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">👨‍🏫</span>
+                    <span style="font-size: 0.95rem;"><strong>강사</strong> <span style="color: #ffeb3b; font-weight: 700;">심재우 CEO</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">⏱️</span>
+                    <span style="font-size: 0.95rem;"><strong>학습 시간</strong> <span style="color: #ffeb3b; font-weight: 700;">총 32분</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">📚</span>
+                    <span style="font-size: 0.95rem;"><strong>강의 수</strong> <span style="color: #ffeb3b; font-weight: 700;">14개</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="video-list-container">
+            <div class="video-item" onclick="openModal('설득의 종말')">
+                <div class="video-number">01</div>
+                <div class="video-info">
+                    <h3>설득의 종말</h3>
+                    <p>왜 최고의 전문가들조차 설득에 실패하는가? QLRCQ 질문과 공감의 의사결정 심리학</p>
+                </div>
+                <span class="video-badge">무료</span>
+            </div>
+            <div class="video-item" onclick="openModal('설득, 왜 항상 어려울까?')">
+                <div class="video-number">02</div>
+                <div class="video-info">
+                    <h3>설득, 왜 항상 어려울까?</h3>
+                    <p>전문가들이 흔히 빠지는 함정: 설명, 논리, 정보의 착각</p>
+                </div>
+                <span class="video-badge">무료</span>
+            </div>
+            <div class="video-item" onclick="openModal(&quot;사람은 '논리'가 아닌 '안전'으로 결정한다&quot;)">
+                <div class="video-number">03</div>
+                <div class="video-info">
+                    <h3>사람은 '논리'가 아닌 '안전'으로 결정한다</h3>
+                    <p>공감 → 이해 → 선택 → 결정의 올바른 순서</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal(&quot;'설득'이 시작되는 순간, '방어'가 시작된다&quot;)">
+                <div class="video-number">04</div>
+                <div class="video-info">
+                    <h3>'설득'이 시작되는 순간, '방어'가 시작된다</h3>
+                    <p>상대방이 방어하려는 사람이 되는 순간</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal(&quot;문제는 '정보 부족'이 아니라 '기준 부재'다&quot;)">
+                <div class="video-number">05</div>
+                <div class="video-info">
+                    <h3>문제는 '정보 부족'이 아니라 '기준 부재'다</h3>
+                    <p>기준이 없는 사람은 결정을 미루는 것이 아니라, 결정을 피합니다</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal(&quot;설득은 '말의 기술'이 아닌 '질문의 구조'다&quot;)">
+                <div class="video-number">06</div>
+                <div class="video-info">
+                    <h3>설득은 '말의 기술'이 아닌 '질문의 구조'다</h3>
+                    <p>질문은 상대가 스스로 기준을 만들고, 스스로 결정에 도달하게 하는 유일한 방법</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('The QLRCQ Cycle: 설득을 대체하는 의사결정 구조')">
+                <div class="video-number">07</div>
+                <div class="video-info">
+                    <h3>The QLRCQ Cycle: 설득을 대체하는 의사결정 구조</h3>
+                    <p>Question, Listen, Reaction, Confirm, Question - 반복되는 사이클 모델</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal(&quot;QLRCQ의 엔진: 상대의 언어로 '확인'하라&quot;)">
+                <div class="video-number">08</div>
+                <div class="video-info">
+                    <h3>QLRCQ의 엔진: 상대의 언어로 '확인'하라</h3>
+                    <p>C(Confirm) 단계의 핵심 - 오해에 기반한 설득을 원천 차단</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('실전 사례: QLRCQ 사이클은 어떻게 작동하는가')">
+                <div class="video-number">09</div>
+                <div class="video-info">
+                    <h3>실전 사례: QLRCQ 사이클은 어떻게 작동하는가</h3>
+                    <p>치과 상담에서 마주하는 5가지 까다로운 상황 실전 적용</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('사례 1 & 2: 필요성을 못 느끼는 환자 / 결정을 미루는 환자')">
+                <div class="video-number">10</div>
+                <div class="video-info">
+                    <h3>사례 1 & 2: 필요성을 못 느끼는 환자 / 결정을 미루는 환자</h3>
+                    <p>치료 필요성을 못 느끼는 환자와 결정을 미루고 싶은 환자 대응법</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('사례 3 & 4: 과거 경험으로 방어적인 환자 / 자기 기준이 없는 환자')">
+                <div class="video-number">11</div>
+                <div class="video-info">
+                    <h3>사례 3 & 4: 과거 경험으로 방어적인 환자 / 자기 기준이 없는 환자</h3>
+                    <p>과잉진료 경험으로 불신하는 환자와 판단 기준이 없는 환자 대응법</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('사례 5 - 비용에서 멈춘 환자 / 모든 사례의 단 하나의 공통점')">
+                <div class="video-number">12</div>
+                <div class="video-info">
+                    <h3>사례 5 - 비용에서 멈춘 환자 / 모든 사례의 단 하나의 공통점</h3>
+                    <p>확인될 때까지 QLRCQ 사이클을 반복했을 뿐입니다</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('&quot;설득당했다&quot; vs &quot;내가 정리했다&quot;')">
+                <div class="video-number">13</div>
+                <div class="video-info">
+                    <h3>"설득당했다" vs "내가 정리했다"</h3>
+                    <p>결정은 이미 상대 내부에서 생성되었기 때문에, 설득은 더 이상 필요 없는 상태가 됩니다</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('QLRCQ: 질문을 멈추지 않는 의사결정 구조')">
+                <div class="video-number">14</div>
+                <div class="video-info">
+                    <h3>QLRCQ: 질문을 멈추지 않는 의사결정 구조</h3>
+                    <p>상대의 니즈와 결정 기준이 명확하게 확인될 때까지 질문을 멈추지 않는 구조</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Curriculum 2 Page - 성공적인 환자 상담의 완성 -->
+    <div id="curriculum2" class="page">
+        <div class="page-header">
+            <h1>A02. 성공적인 환자 상담의 완성</h1>
+            <p>환자가 스스로 결정하고 신뢰를 남기는 구조</p>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-top: 25px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">👨‍🏫</span>
+                    <span style="font-size: 0.95rem;"><strong>강사</strong> <span style="color: #ffeb3b; font-weight: 700;">심재우 CEO</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">⏱️</span>
+                    <span style="font-size: 0.95rem;"><strong>학습 시간</strong> <span style="color: #ffeb3b; font-weight: 700;">총 150분</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <span style="font-size: 1.3rem;">📚</span>
+                    <span style="font-size: 0.95rem;"><strong>강의 수</strong> <span style="color: #ffeb3b; font-weight: 700;">18개</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="video-list-container">
+            <!-- 섹션 1: 성공적인 환자 상담의 정의 -->
+            <h3 style="margin: 30px 0 20px; color: var(--primary);">1. 성공적인 환자 상담의 정의</h3>
+            <div class="video-item" onclick="openModal('성공적인 상담이란 무엇인가')">
+                <div class="video-number">01</div>
+                <div class="video-info">
+                    <h3>성공적인 상담이란 무엇인가</h3>
+                    <p>결정과 신뢰, 두 가지 성공 지표</p>
+                </div>
+                <span class="video-badge">무료</span>
+            </div>
+            <div class="video-item" onclick="openModal('결정과 신뢰가 동시에 남아야 하는 이유')">
+                <div class="video-number">02</div>
+                <div class="video-info">
+                    <h3>'결정'과 '신뢰'가 동시에 남아야 하는 이유</h3>
+                    <p>일회성 동의 vs 장기적 신뢰 관계</p>
+                </div>
+                <span class="video-badge">무료</span>
+            </div>
+
+            <!-- 섹션 2: 환자 상담 5단계 구조의 완성 -->
+            <h3 style="margin: 40px 0 20px; color: var(--primary);">2. 환자 상담 5단계 구조의 완성</h3>
+            <div class="video-item" onclick="openModal('환자 상담 5단계 전체 구조 복습')">
+                <div class="video-number">03</div>
+                <div class="video-info">
+                    <h3>환자 상담 5단계 전체 구조 복습</h3>
+                    <p>상담의 뼈대가 되는 5단계 프레임</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('왜 순서가 바뀌면 실패하는가')">
+                <div class="video-number">04</div>
+                <div class="video-info">
+                    <h3>왜 순서가 바뀌면 실패하는가</h3>
+                    <p>각 단계의 역할과 순서의 중요성</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('상담은 흐름이다, 기술이 아니다')">
+                <div class="video-number">05</div>
+                <div class="video-info">
+                    <h3>상담은 흐름이다, 기술이 아니다</h3>
+                    <p>자연스러운 대화의 흐름 만들기</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+
+            <!-- 섹션 3: QLRCQ로 완성되는 상담 -->
+            <h3 style="margin: 40px 0 20px; color: var(--primary);">3. QLRCQ로 완성되는 상담</h3>
+            <div class="video-item" onclick="openModal('질문이 멈추는 순간 상담은 끝난다')">
+                <div class="video-number">06</div>
+                <div class="video-info">
+                    <h3>질문이 멈추는 순간 상담은 끝난다</h3>
+                    <p>질문의 힘과 대화 주도권</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('환자의 기준을 끌어내는 질문 구조')">
+                <div class="video-number">07</div>
+                <div class="video-info">
+                    <h3>환자의 기준을 끌어내는 질문 구조</h3>
+                    <p>효과적인 질문 설계 방법</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('확인 없는 공감이 만드는 착각')">
+                <div class="video-number">08</div>
+                <div class="video-info">
+                    <h3>확인 없는 공감이 만드는 착각</h3>
+                    <p>진정한 공감과 확인의 기술</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('QLRCQ가 상담을 흔들리지 않게 만드는 이유')">
+                <div class="video-number">09</div>
+                <div class="video-info">
+                    <h3>QLRCQ가 상담을 흔들리지 않게 만드는 이유</h3>
+                    <p>QLRCQ 기법의 완전한 이해</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+
+            <!-- 섹션 4: 결정권 제공의 힘 -->
+            <h3 style="margin: 40px 0 20px; color: var(--primary);">4. 결정권 제공의 힘</h3>
+            <div class="video-item" onclick="openModal('선택지를 주는 상담 vs 결정권을 주는 상담')">
+                <div class="video-number">10</div>
+                <div class="video-info">
+                    <h3>선택지를 주는 상담 vs 결정권을 주는 상담</h3>
+                    <p>미묘하지만 결정적인 차이</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('환자가 제가 정하면 되는 거군요라고 말하는 순간')">
+                <div class="video-number">11</div>
+                <div class="video-info">
+                    <h3>환자가 "제가 정하면 되는 거군요"라고 말하는 순간</h3>
+                    <p>결정권 이양의 마법적 순간</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('결정권 제공이 매출을 떨어뜨리지 않는 이유')">
+                <div class="video-number">12</div>
+                <div class="video-info">
+                    <h3>결정권 제공이 매출을 떨어뜨리지 않는 이유</h3>
+                    <p>장기적 수익과 신뢰의 상관관계</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+
+            <!-- 섹션 5: 가치 전달과 신뢰의 완성 -->
+            <h3 style="margin: 40px 0 20px; color: var(--primary);">5. 가치 전달과 신뢰의 완성</h3>
+            <div class="video-item" onclick="openModal('가치 전달은 설득이 아니다')">
+                <div class="video-number">13</div>
+                <div class="video-info">
+                    <h3>가치 전달은 설득이 아니다</h3>
+                    <p>가치와 설득의 본질적 차이</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('비용 앞에서 상담이 무너지는 이유')">
+                <div class="video-number">14</div>
+                <div class="video-info">
+                    <h3>비용 앞에서 상담이 무너지는 이유</h3>
+                    <p>가격 저항을 다루는 올바른 방법</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('환자의 기준과 치료 가치를 연결하는 법')">
+                <div class="video-number">15</div>
+                <div class="video-info">
+                    <h3>환자의 기준과 치료 가치를 연결하는 법</h3>
+                    <p>맞춤형 가치 제안의 기술</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('상담 종료 후 불안을 남기지 않는 구조')">
+                <div class="video-number">16</div>
+                <div class="video-info">
+                    <h3>상담 종료 후 불안을 남기지 않는 구조</h3>
+                    <p>안심과 확신을 주는 마무리</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('여기서 하길 잘했다가 남는 상담')">
+                <div class="video-number">17</div>
+                <div class="video-info">
+                    <h3>"여기서 하길 잘했다"가 남는 상담</h3>
+                    <p>환자 만족의 궁극적 목표</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+            <div class="video-item" onclick="openModal('성공적인 환자 상담의 최종 공식')">
+                <div class="video-number">18</div>
+                <div class="video-info">
+                    <h3>성공적인 환자 상담의 최종 공식</h3>
+                    <p>전체 과정 총정리 및 실전 적용</p>
+                </div>
+                <span class="video-badge locked">유료</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Free Lessons Page -->
+    <div id="free" class="page">
+        <div class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h1>무료 강의</h1>
+            <p>덴탈클리닉파인더 환자상담 아카데미를 미리 경험해보세요</p>
+        </div>
+        <section class="free-section">
+            <h2>지금 바로 시청 가능한 무료 강의</h2>
+            <div class="free-videos">
+                <div class="free-video-card" onclick="openModal('설득의 종말')">
+                    <div class="play-icon">&#9654;</div>
+                    <h3>설득의 종말<br><small style="opacity: 0.8; font-weight: 400;">왜 최고의 전문가들조차 설득에 실패하는가?</small></h3>
+                </div>
+                <div class="free-video-card" onclick="openModal('성공적인 상담이란 무엇인가')">
+                    <div class="play-icon">&#9654;</div>
+                    <h3>상담 5단계 맛보기<br><small style="opacity: 0.8; font-weight: 400;">성공적인 상담이란 무엇인가</small></h3>
+                </div>
+                <div class="free-video-card" onclick="openModal('결정권 제공 미니 강의')">
+                    <div class="play-icon">&#9654;</div>
+                    <h3>결정권 제공 미니 강의<br><small style="opacity: 0.8; font-weight: 400;">환자에게 결정권을 돌려주는 방법</small></h3>
+                </div>
+            </div>
+        </section>
+        <section style="text-align: center; padding: 60px 5%;">
+            <h2 style="margin-bottom: 20px;">더 깊이 있는 학습을 원하시나요?</h2>
+            <p style="color: var(--gray); margin-bottom: 30px;">프리미엄 강의에서 환자 상담의 완전한 구조를 익혀보세요</p>
+            <a href="#curriculum1" class="btn btn-primary">전체 커리큘럼 보기</a>
+        </section>
+    </div>
+
+    <!-- Resources Page -->
+    <div id="resources" class="page">
+        <div class="page-header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+            <h1>자료실</h1>
+            <p>상담 실전에 바로 적용할 수 있는 자료들</p>
+        </div>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">&#128203;</div>
+                <h3>상담 체크리스트</h3>
+                <p>5단계 상담 구조를 점검할 수 있는 실전 체크리스트</p>
+                <button class="btn btn-primary">다운로드</button>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128172;</div>
+                <h3>상담 문장 카드</h3>
+                <p>상황별로 사용할 수 있는 효과적인 상담 문장 모음</p>
+                <button class="btn btn-primary">다운로드</button>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128214;</div>
+                <h3>교육용 가이드</h3>
+                <p>병원 내부 교육에 활용할 수 있는 종합 가이드</p>
+                <button class="btn btn-primary">다운로드</button>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#127891;</div>
+                <h3>QLRCQ 요약본</h3>
+                <p>QLRCQ 기법의 핵심을 정리한 한 장 요약</p>
+                <button class="btn btn-primary">다운로드</button>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128187;</div>
+                <h3>AI 환자상담튜터</h3>
+                <p>실전 롤플레이로 상담 스킬을 연습할 수 있는 AI 튜터</p>
+                <button class="btn btn-primary">바로가기</button>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">&#128196;</div>
+                <h3>상담 시나리오</h3>
+                <p>다양한 상황별 상담 시나리오 예시</p>
+                <button class="btn btn-primary">다운로드</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses Page - 강의 영상 -->
+    <div id="courses" class="page">
+        <div class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h1>강의 영상</h1>
+            <p>덴탈클리닉파인더 환자상담 아카데미가 제공하는 강의 목록</p>
+        </div>
+        <div style="max-width: 1100px; margin: 0 auto; padding: 60px 5%;">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 2rem; color: var(--dark); margin-bottom: 15px;">제공 강의 목록</h2>
+                <p style="color: var(--gray); font-size: 1.1rem;">환자 상담의 새로운 패러다임을 배워보세요</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 40px;">
+                <!-- A01 카드 -->
+                <a href="#curriculum1" style="text-decoration: none;">
+                    <div style="background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer; border: 3px solid transparent;"
+                         onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 25px 60px rgba(231,76,60,0.2)'; this.style.borderColor='#e74c3c';"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 50px rgba(0,0,0,0.1)'; this.style.borderColor='transparent';">
+                        <div style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); padding: 40px; color: white; text-align: center;">
+                            <div style="display: inline-block; background: #ffeb3b; color: #333; padding: 12px 30px; border-radius: 25px; font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255,235,59,0.4);">A01</div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 10px; font-weight: 700;">설득의 종말</h3>
+                            <p style="opacity: 0.9; font-size: 1rem;">왜 더 이상 환자를 설득해서는 안 되는가</p>
+                        </div>
+                        <div style="padding: 30px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; padding: 12px; background: #fff5f5; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">👨‍🏫</span>
+                                <span style="font-size: 1rem; color: var(--dark);"><strong>강사</strong> <span style="color: #e74c3c; font-weight: 700;">심재우 CEO</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: #e74c3c;">14</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">강의 수</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: #e74c3c;">32분</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">총 학습시간</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: #e74c3c;">2</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">무료 강의</div>
+                                </div>
+                            </div>
+                            <ul style="list-style: none; color: var(--gray); font-size: 0.95rem; line-height: 2;">
+                                <li>✓ QLRCQ 상담 엔진의 이해</li>
+                                <li>✓ 설득 심리학의 한계와 대안</li>
+                                <li>✓ 실전 사례 5가지 적용법</li>
+                            </ul>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <span style="display: inline-block; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 14px 40px; border-radius: 30px; font-weight: 600;">강의 보러가기 →</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- A02 카드 -->
+                <a href="#curriculum2" style="text-decoration: none;">
+                    <div style="background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer; border: 3px solid transparent;"
+                         onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 25px 60px rgba(26,95,122,0.2)'; this.style.borderColor='var(--primary)';"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 50px rgba(0,0,0,0.1)'; this.style.borderColor='transparent';">
+                        <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); padding: 40px; color: white; text-align: center;">
+                            <div style="display: inline-block; background: #ffeb3b; color: #333; padding: 12px 30px; border-radius: 25px; font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255,235,59,0.4);">A02</div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 10px; font-weight: 700;">성공적인 환자 상담의 완성</h3>
+                            <p style="opacity: 0.9; font-size: 1rem;">환자가 스스로 결정하고 신뢰를 남기는 구조</p>
+                        </div>
+                        <div style="padding: 30px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; padding: 12px; background: #f0f9ff; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">👨‍🏫</span>
+                                <span style="font-size: 1rem; color: var(--dark);"><strong>강사</strong> <span style="color: var(--primary); font-weight: 700;">심재우 CEO</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">18</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">강의 수</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">150분</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">총 학습시간</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">2</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">무료 강의</div>
+                                </div>
+                            </div>
+                            <ul style="list-style: none; color: var(--gray); font-size: 0.95rem; line-height: 2;">
+                                <li>✓ 환자 상담 5단계 구조</li>
+                                <li>✓ 결정권 제공의 힘</li>
+                                <li>✓ 가치 전달과 신뢰의 완성</li>
+                            </ul>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <span style="display: inline-block; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 14px 40px; border-radius: 30px; font-weight: 600;">강의 보러가기 →</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 하단 안내 -->
+            <div style="text-align: center; margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 20px;">
+                <h3 style="color: var(--dark); margin-bottom: 15px; font-size: 1.3rem;">🎓 학습 안내</h3>
+                <p style="color: var(--gray); line-height: 1.8;">
+                    각 과정의 1-2강은 <strong style="color: var(--secondary);">무료</strong>로 제공됩니다.<br>
+                    <strong style="color: #ff6b9d;">유료 강의는 비밀번호 입력 후 시청 가능합니다.</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructors Page -->
+    <div id="instructors" class="page">
+        <div class="page-header" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+            <h1>강사 소개</h1>
+            <p>덴탈클리닉파인더 환자상담 아카데미를 이끄는 전문가들</p>
+        </div>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 60px 5%;">
+            <!-- 심재우 대표 -->
+            <div style="display: flex; gap: 40px; margin-bottom: 60px; flex-wrap: wrap; align-items: flex-start; background: white; border-radius: 24px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.08);">
+                <div style="flex: 0 0 250px;">
+                    <img src="https://jaiwshim-project.github.io/dental_platform/images/coach-shim.jpg" alt="심재우 대표" style="width: 100%; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="display: inline-block; background: var(--primary); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px;">CEO</div>
+                    <h2 style="font-size: 2rem; color: var(--dark); margin-bottom: 10px;">심재우 대표</h2>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">DentalClinicFinder CEO | 치과 경영 컨설팅 전문가</p>
+                    <p style="color: var(--gray); line-height: 1.8; margin-bottom: 25px; font-size: 1.05rem;">
+                        "수많은 치과의 디지털 전환과 신뢰 시스템 구축을 성공적으로 이끌어온 경험을 바탕으로,<br>
+                        환자 상담의 새로운 패러다임을 제시합니다."
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">학력 & 경력</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• 기계공학 석사 (구조해석 & 디지털트윈)</li>
+                                <li>• 현대자동차 기술연구소 (5년)</li>
+                                <li>• General Electric (8년)</li>
+                                <li>• 에스비컨설팅 (30년)</li>
+                                <li>• 8개국 B2B세일즈 국제공인 마스터트레이너</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">주요 업적</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• Marquis Who's Who in the World 등재 (2016, 2020)</li>
+                                <li>• QLRCQ 상담 엔진 개발자</li>
+                                <li>• DF-AI 신용점수 시스템 설계자</li>
+                                <li>• 5단계 상담 모델 창시자</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #e8f4f8 0%, #f0f9ff 100%); border-radius: 16px; border: 1px solid rgba(26, 95, 122, 0.15);">
+                        <h4 style="color: var(--primary); margin-bottom: 15px; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                            <span style="background: var(--primary); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem;">NEWS</span> 브랜드 뉴스
+                        </h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                            <a href="https://www.ibrandnews.com/news/articleView.html?idxno=11415" target="_blank" class="news-link blue">
+                                <span class="news-icon">📰</span> 치과의료의 새로운 미래 - AI, 기술을 넘어 신뢰를 설계하다
+                            </a>
+                            <a href="https://www.ibrandnews.com/news/articleView.html?idxno=10530" target="_blank" class="news-link blue">
+                                <span class="news-icon">📰</span> AI 예술 융합 공간으로 진화! 첨단 기술로 예술 감상의 새 지평 열다
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 임영일 원장 -->
+            <div style="display: flex; gap: 40px; margin-bottom: 60px; flex-wrap: wrap; align-items: flex-start; background: white; border-radius: 24px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.08);">
+                <div style="flex: 0 0 250px;">
+                    <img src="https://jaiwshim-project.github.io/dental_platform/AI%EA%B0%A4%EB%9F%AC%EB%A6%AC/image-removebg-preview%20(12).png" alt="임영일 원장" style="width: 100%; border-radius: 16px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px;">
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="display: inline-block; background: var(--accent); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px;">CCO</div>
+                    <h2 style="font-size: 2rem; color: var(--dark); margin-bottom: 10px;">임영일 원장</h2>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">화이트서울치과 대표원장 | DentalClinicFinder CCO</p>
+                    <p style="color: var(--gray); line-height: 1.8; margin-bottom: 25px; font-size: 1.05rem;">
+                        "자연치아 보존 철학을 바탕으로 환자 중심의 진료를 실천하는 치과보존과 전문의로서,<br>
+                        임상 케이스 적용 교육을 담당합니다."
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">학력</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• 서울대학교 치과대학 졸업</li>
+                                <li>• 서울대학교 치과대학 석사</li>
+                                <li>• 서울대학교 치과대학 박사 수료</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">경력 & 학회 활동</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• 서울대학교 치과병원 치과보존과 인턴·레지던트 수료</li>
+                                <li>• 서울대학교 치과대학 외래강사</li>
+                                <li>• 대한치과보존학회 정회원</li>
+                                <li>• 대한치과이식임플란트학회 정회원</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #e6f7f5 0%, #f0fdfb 100%); border-radius: 16px; border: 1px solid rgba(21, 152, 149, 0.15);">
+                        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                            <span style="background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem;">NEWS</span> 브랜드 뉴스
+                        </h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                            <a href="https://www.ibrandnews.com/news/articleView.html?idxno=11396" target="_blank" class="news-link teal">
+                                <span class="news-icon">📰</span> 상담 혁신이 신뢰점수를 만나다 - 광고비 대신 '신뢰'를 쌓는 치과로 혁신하는 롤모델
+                            </a>
+                            <a href="https://www.ibrandnews.com/news/articleView.html?idxno=11399" target="_blank" class="news-link teal">
+                                <span class="news-icon">📰</span> 환자의 절대 신뢰를 얻는 5단계 시스템
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 이용식 CMO -->
+            <div style="display: flex; gap: 40px; margin-bottom: 60px; flex-wrap: wrap; align-items: flex-start; background: white; border-radius: 24px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.08);">
+                <div style="flex: 0 0 250px;">
+                    <img src="https://jaiwshim-project.github.io/dental_platform/AI%EA%B0%A4%EB%9F%AC%EB%A6%AC/%EC%9D%B4%EC%9A%A9%EC%8B%9D%20CMO.png" alt="이용식 CMO" style="width: 100%; border-radius: 16px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px;">
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="display: inline-block; background: #e74c3c; color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 15px;">CMO</div>
+                    <h2 style="font-size: 2rem; color: var(--dark); margin-bottom: 10px;">이용식 CMO</h2>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">DentalClinicFinder CMO | 치과산업 전문 자문가</p>
+                    <p style="color: var(--gray); line-height: 1.8; margin-bottom: 25px; font-size: 1.05rem;">
+                        "40년 치과 재료 영업·유통 경력의 치과산업 전문가로서<br>
+                        업계 발전과 산업 자문에 기여합니다."
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">학력 & 경력</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• 중앙대학교 신문방송학과 졸업</li>
+                                <li>• (주)네오프란트 대표이사</li>
+                                <li>• 한국치과의료기기산업협회 제13대 회장 (2015-2017)</li>
+                                <li>• 전임 부회장 및 지부장 역임</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark); margin-bottom: 12px; font-size: 1rem;">주요 업적</h4>
+                            <ul style="color: var(--gray); font-size: 0.9rem; line-height: 1.9; list-style: none;">
+                                <li>• 국립치의학연구원 설립 추진위원</li>
+                                <li>• 자체 합금 브랜드 '골드윈' 개발</li>
+                                <li>• 예방치과 브랜드 '뽀식이와 아거새' 런칭</li>
+                                <li>• 대한민국 문화예술대상 치의학 산업부문 최고 공로대상 (2014)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #fdf2f2 0%, #fff5f5 100%); border-radius: 16px; border: 1px solid rgba(231, 76, 60, 0.15);">
+                        <h4 style="color: #e74c3c; margin-bottom: 15px; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                            <span style="background: #e74c3c; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem;">NEWS</span> 브랜드 뉴스
+                        </h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                            <a href="https://www.ibrandnews.com/news/articleView.html?idxno=11506" target="_blank" class="news-link red">
+                                <span class="news-icon">📰</span> 세 리더, 하나의 비전 - 이용식 CMO가 심재우 대표와 '신뢰'로 치과 산업의 판도를 바꾸는 방법
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); border-radius: 24px; color: white;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 15px;">전문가들과 함께 상담 역량을 키워보세요</h3>
+                <p style="opacity: 0.9; margin-bottom: 30px;">덴탈클리닉파인더 환자상담 아카데미에서 체계적인 학습을 시작하세요</p>
+                <a href="#curriculum1" class="btn btn-primary" style="background: white; color: var(--primary);">강의 시작하기</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">강의 제목</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="videoContent">
+                    <!-- YouTube iframe or placeholder will be inserted here -->
+                </div>
+                <p id="modalDesc" style="color: var(--gray); line-height: 1.8;">
+                    이 강의에서는 환자 상담의 핵심 원리를 학습합니다.
+                    실제 상담 상황에서 바로 적용할 수 있는 실전 기법을 익혀보세요.
+                </p>
+                <div style="margin-top: 30px; display: flex; gap: 15px;">
+                    <button class="btn btn-primary" onclick="closeModal()">목록으로 돌아가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>덴탈클리닉파인더</h4>
+                <p style="font-size: 0.9rem; line-height: 1.8;">
+                    환자가 스스로 결정하고<br>
+                    신뢰가 남는 상담의 기준
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>강의</h4>
+                <ul>
+                    <li><a href="#curriculum1">설득의 종말</a></li>
+                    <li><a href="#curriculum2">성공적인 환자 상담</a></li>
+                    <li><a href="#free">무료 강의</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>자료</h4>
+                <ul>
+                    <li><a href="#resources">상담 체크리스트</a></li>
+                    <li><a href="#resources">상담 문장 카드</a></li>
+                    <li><a href="#resources">교육용 가이드</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>강사진</h4>
+                <ul>
+                    <li><a href="#instructors">심재우 대표</a></li>
+                    <li><a href="#instructors">임영일 원장</a></li>
+                    <li><a href="#instructors">이용식 CMO</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>지원</h4>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">문의하기</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 덴탈클리닉파인더. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // Bunny Stream 설정
+        // ============================================
+        const BUNNY_LIBRARY_ID = '586528';
+        const PAID_VIDEO_PASSWORD = '5734';
+
+        // 무료 강의 목록
+        const freeVideos = [
+            '설득의 종말',
+            '설득, 왜 항상 어려울까?',
+            '성공적인 상담이란 무엇인가',
+            '결정과 신뢰가 동시에 남아야 하는 이유'
+        ];
+
+        // 비밀번호 인증 여부 확인 (세션 기반)
+        function isPasswordVerified() {
+            return sessionStorage.getItem('paidAccessVerified') === 'true';
+        }
+
+        // 비밀번호 인증 상태 저장
+        function setPasswordVerified() {
+            sessionStorage.setItem('paidAccessVerified', 'true');
+        }
+
+        // Video Data - Bunny Stream video IDs and descriptions
+        // Track 1: 설득의 종말 (슬라이드 07-20)
+        const videoData = {
+            // 01강 - 슬라이드 07
+            '설득의 종말': {
+                videoId: '577e9078-44ef-420a-a791-a533345c17a0',
+                description: '왜 최고의 전문가들조차 설득에 실패하는가? QLRCQ - 질문과 공감의 의사결정 심리학'
+            },
+            // 02강 - 슬라이드 08
+            '설득, 왜 항상 어려울까?': {
+                videoId: 'ef5ddfc6-528d-4d7a-a21c-95d206b94aaa',
+                description: '전문가들이 흔히 빠지는 함정: 설명, 논리, 정보의 착각'
+            },
+            // 03강 - 슬라이드 09
+            "사람은 '논리'가 아닌 '안전'으로 결정한다": {
+                videoId: 'a4fa162e-eb2e-4bc0-b3d8-244247bb2239',
+                description: '공감 → 이해 → 선택 → 결정의 올바른 순서'
+            },
+            // 04강 - 슬라이드 10
+            "'설득'이 시작되는 순간, '방어'가 시작된다": {
+                videoId: '8791b25f-9419-45d2-a14a-1b29676e7100',
+                description: '상대방이 방어하려는 사람이 되는 순간'
+            },
+            // 05강 - 슬라이드 11
+            "문제는 '정보 부족'이 아니라 '기준 부재'다": {
+                videoId: '4a8b429d-0502-497a-a2b2-39513bb66efa',
+                description: '기준이 없는 사람은 결정을 미루는 것이 아니라, 결정을 피합니다'
+            },
+            // 06강 - 슬라이드 12
+            "설득은 '말의 기술'이 아닌 '질문의 구조'다": {
+                videoId: 'ffffda66-7f55-4dd3-a91d-0f0565305631',
+                description: '질문은 상대가 스스로 기준을 만들고, 스스로 결정에 도달하게 하는 유일한 방법'
+            },
+            // 07강 - 슬라이드 13
+            'The QLRCQ Cycle: 설득을 대체하는 의사결정 구조': {
+                videoId: '5e59d2d0-19e3-4c47-a638-63b1e0867652',
+                description: 'Question, Listen, Reaction, Confirm, Question - 반복되는 사이클 모델'
+            },
+            // 08강 - 슬라이드 14
+            "QLRCQ의 엔진: 상대의 언어로 '확인'하라": {
+                videoId: '9faaddd0-990e-49e5-9804-dcfd0882d6d8',
+                description: 'C(Confirm) 단계의 핵심 - 오해에 기반한 설득을 원천 차단'
+            },
+            // 09강 - 슬라이드 15
+            '실전 사례: QLRCQ 사이클은 어떻게 작동하는가': {
+                videoId: '43483225-74ee-44a9-a1db-4b7469e43ef6',
+                description: '치과 상담에서 마주하는 5가지 까다로운 상황 실전 적용'
+            },
+            // 10강 - 슬라이드 16
+            '사례 1 & 2: 필요성을 못 느끼는 환자 / 결정을 미루는 환자': {
+                videoId: '8f651bc5-d3b4-4b6a-a893-d7fdd4560838',
+                description: '치료 필요성을 못 느끼는 환자와 결정을 미루고 싶은 환자 대응법'
+            },
+            // 11강 - 슬라이드 17
+            '사례 3 & 4: 과거 경험으로 방어적인 환자 / 자기 기준이 없는 환자': {
+                videoId: 'b28beebc-0a89-4252-97a8-b8ba179f90e1',
+                description: '과잉진료 경험으로 불신하는 환자와 판단 기준이 없는 환자 대응법'
+            },
+            // 12강 - 슬라이드 18
+            '사례 5 - 비용에서 멈춘 환자 / 모든 사례의 단 하나의 공통점': {
+                videoId: 'cdf83ba1-01a4-44a3-80d1-2950077002b4',
+                description: '확인될 때까지 QLRCQ 사이클을 반복했을 뿐입니다'
+            },
+            // 13강 - 슬라이드 19
+            '"설득당했다" vs "내가 정리했다"': {
+                videoId: '3126c14e-3ff0-4b8e-96fc-5eaa878658ac',
+                description: '결정은 이미 상대 내부에서 생성되었기 때문에, 설득은 더 이상 필요 없는 상태가 됩니다'
+            },
+            // 14강 - 슬라이드 20
+            'QLRCQ: 질문을 멈추지 않는 의사결정 구조': {
+                videoId: '9c2440c6-51bc-496c-90dd-396f8e1b9a1b',
+                description: '상대의 니즈와 결정 기준이 명확하게 확인될 때까지 질문을 멈추지 않는 구조'
+            }
+        };
+
+        // Page Navigation (hash-based)
+        function showPage(pageId) {
+            window.location.hash = pageId;
+        }
+
+        // Handle URL hash on page load and hash change
+        function handleHashChange() {
+            const hash = window.location.hash.replace('#', '') || 'home';
+
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById(hash);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            } else {
+                document.getElementById('home').classList.add('active');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('navMenu').classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Listen for hash changes (back/forward buttons)
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Handle initial page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash) {
+                handleHashChange();
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+
+        // Modal Functions
+        function openModal(title) {
+            document.getElementById('modalTitle').textContent = title;
+
+            const videoContent = document.getElementById('videoContent');
+            const modalDesc = document.getElementById('modalDesc');
+
+            // 무료 영상인지 확인
+            const isFreeVideo = freeVideos.includes(title);
+
+            // 유료 영상인 경우
+            if (!isFreeVideo) {
+                // 이미 비밀번호 인증된 세션이면 바로 재생
+                if (isPasswordVerified()) {
+                    playVideo(title);
+                    return;
+                }
+                // 비밀번호 입력 필요
+                showPasswordPrompt(title);
+                return;
+            }
+
+            // 무료 영상 재생
+            playVideo(title);
+        }
+
+        // 비밀번호 입력 프롬프트 표시
+        function showPasswordPrompt(title) {
+            const videoContent = document.getElementById('videoContent');
+            const modalDesc = document.getElementById('modalDesc');
+
+            videoContent.innerHTML = `
+                <div class="password-prompt" style="background: linear-gradient(135deg, #fff5f7 0%, #ffe8ed 100%); border-radius: 16px; padding: 40px; text-align: center; border: 2px solid #ff6b9d;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+                    <h3 style="color: var(--dark); margin-bottom: 10px; font-size: 1.3rem;">유료 강의입니다</h3>
+                    <p style="color: var(--gray); margin-bottom: 25px;">시청하시려면 비밀번호를 입력하세요</p>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                        <input type="password" id="passwordInput" maxlength="4" placeholder="****"
+                            style="width: 120px; padding: 15px; font-size: 1.5rem; text-align: center; border: 2px solid #ddd; border-radius: 12px; letter-spacing: 8px;"
+                            onkeypress="if(event.key === 'Enter') checkPassword('${title.replace(/'/g, "\\'")}')">
+                    </div>
+                    <button onclick="checkPassword('${title.replace(/'/g, "\\'")}')" class="btn btn-primary" style="background: #ff6b9d; border: none;">
+                        확인
+                    </button>
+                    <p id="passwordError" style="color: #e74c3c; margin-top: 15px; display: none;">비밀번호가 올바르지 않습니다</p>
+                </div>
+            `;
+            modalDesc.textContent = videoData[title]?.description || '이 강의에서는 환자 상담의 핵심 원리를 학습합니다.';
+
+            document.getElementById('videoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // 비밀번호 입력창에 포커스
+            setTimeout(() => {
+                document.getElementById('passwordInput')?.focus();
+            }, 100);
+        }
+
+        // 비밀번호 확인
+        function checkPassword(title) {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+
+            if (input.value === PAID_VIDEO_PASSWORD) {
+                // 비밀번호 정확 - 세션에 인증 상태 저장
+                setPasswordVerified();
+                // 영상 재생
+                playVideo(title);
+            } else {
+                // 비밀번호 오류
+                error.style.display = 'block';
+                input.value = '';
+                input.style.borderColor = '#e74c3c';
+                input.focus();
+            }
+        }
+
+        // 영상 재생
+        function playVideo(title) {
+            const videoContent = document.getElementById('videoContent');
+            const modalDesc = document.getElementById('modalDesc');
+
+            // Check if video has Bunny Stream ID
+            if (videoData[title] && videoData[title].videoId && videoData[title].videoId.length > 10) {
+                const videoId = videoData[title].videoId;
+                videoContent.innerHTML = `
+                    <div class="video-container">
+                        <iframe
+                            src="https://iframe.mediadelivery.net/embed/${BUNNY_LIBRARY_ID}/${videoId}?autoplay=true&preload=true"
+                            loading="lazy"
+                            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                            allowfullscreen="true">
+                        </iframe>
+                    </div>
+                `;
+                modalDesc.textContent = videoData[title].description;
+            } else {
+                // Placeholder for videos not yet configured
+                videoContent.innerHTML = `
+                    <div class="video-placeholder">
+                        <div style="text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🎬</div>
+                            <div style="font-size: 1.1rem; margin-bottom: 10px;">영상 준비 중</div>
+                            <div style="font-size: 0.85rem; opacity: 0.7;">곧 업로드됩니다</div>
+                        </div>
+                    </div>
+                `;
+                modalDesc.textContent = videoData[title]?.description || '이 강의에서는 환자 상담의 핵심 원리를 학습합니다. 실제 상담 상황에서 바로 적용할 수 있는 실전 기법을 익혀보세요.';
+            }
+
+            document.getElementById('videoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            // Stop video when closing modal (removes iframe to stop playback)
+            document.getElementById('videoContent').innerHTML = '';
+            document.getElementById('videoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Login Handler (Demo)
+        function handleLogin(e) {
+            e.preventDefault();
+            alert('로그인 기능은 데모 버전에서 제공되지 않습니다.');
+        }
+
+        // Navigation is handled by hash changes - no smooth scroll needed
+        // The handleHashChange function above manages page switching
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
