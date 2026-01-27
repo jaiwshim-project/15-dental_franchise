@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 학습 대시보드 | 덴탈클리닉파인더 환자상담 AI 아카데미</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #8b5cf6;
@@ -717,7 +715,7 @@
             border-radius: 12px;
         }
 
-        /* 원장 전용 직원 관리 섹션 */
+        /* 대표원장 전용 직원 관리 섹션 */
         .staff-section {
             display: none;
             background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
@@ -955,9 +953,9 @@
             </div>
         </div>
 
-        <!-- 원장 전용: 우리 병원 직원 섹션 -->
+        <!-- 대표원장 전용: 우리 병원 직원 섹션 -->
         <div class="section-card staff-section" id="staffSection">
-            <h2>👥 우리 병원 직원 <span class="staff-badge">원장 전용</span></h2>
+            <h2>👥 우리 병원 직원 <span class="staff-badge">대표원장 전용</span></h2>
             <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 20px;">같은 병원에 등록된 직원들의 학습 현황을 확인할 수 있습니다.</p>
             <div class="staff-list" id="staffList">
                 <div class="no-staff">직원 정보를 불러오는 중...</div>
@@ -1144,8 +1142,6 @@
         </div>
     </div>
 
-    <!-- Supabase 설정 스크립트 -->
-    <script src="supabase-config.js"></script>
     <script>
         // 현재 사용자 정보 로드
         function loadUserProfile() {
@@ -1156,12 +1152,12 @@
             }
 
             // 프로필 정보 표시
-            document.getElementById('profileAvatar').textContent = user.serial_number || user.serialNumber || user.name.charAt(0);
-            document.getElementById('profileName').textContent = ((user.serial_number || user.serialNumber) ? '[' + (user.serial_number || user.serialNumber) + '] ' : '') + user.name;
+            document.getElementById('profileAvatar').textContent = user.serialNumber || user.name.charAt(0);
+            document.getElementById('profileName').textContent = (user.serialNumber ? '[' + user.serialNumber + '] ' : '') + user.name;
             document.getElementById('profileClinic').textContent = (user.clinic || '소속 미입력') + (user.role ? ' | ' + user.role : '');
 
-            if (user.created_at || user.registeredAt) {
-                const regDate = new Date(user.created_at || user.registeredAt).toLocaleDateString('ko-KR');
+            if (user.registeredAt) {
+                const regDate = new Date(user.registeredAt).toLocaleDateString('ko-KR');
                 document.getElementById('profileRegDate').textContent = '등록일: ' + regDate;
             }
 
@@ -1233,22 +1229,22 @@
             window.location.href = 'user-select.html';
         }
 
-        // 시험 기록 로드 (Supabase에서)
-        async function loadQuizData(userId) {
+        // 시험 기록 로드 (로컬 스토리지)
+        function loadQuizData(userId) {
             const quizIds = ['quiz07', 'quiz08', 'quiz09', 'quiz10'];
             const allHistory = [];
 
-            // Supabase에서 사용자의 퀴즈 결과 조회
-            const quizResults = await getQuizResultsByUser(userId);
+            // 로컬 스토리지에서 사용자의 퀴즈 결과 조회
+            const quizResults = JSON.parse(localStorage.getItem('quizResults_' + userId) || '[]');
 
             // 퀴즈별로 그룹화
             const quizDataMap = {};
             quizResults.forEach(result => {
-                if (!quizDataMap[result.quiz_id]) {
-                    quizDataMap[result.quiz_id] = [];
+                if (!quizDataMap[result.quizId]) {
+                    quizDataMap[result.quizId] = [];
                 }
-                quizDataMap[result.quiz_id].push({
-                    date: result.created_at,
+                quizDataMap[result.quizId].push({
+                    date: result.date,
                     score: result.score
                 });
             });
@@ -1262,8 +1258,11 @@
                 const countCell = document.querySelector(`.quiz-count[data-quiz="${quizId}"]`);
 
                 if (quizData.length > 0) {
+                    // 날짜순 정렬 (최신순)
+                    quizData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
                     // 최근 응시일
-                    const lastAttempt = quizData[0]; // 이미 최신순으로 정렬됨
+                    const lastAttempt = quizData[0];
                     const lastDate = new Date(lastAttempt.date).toLocaleDateString('ko-KR');
                     dateCell.textContent = lastDate;
 
@@ -1344,8 +1343,8 @@
             }).join('');
         }
 
-        // 원장인지 확인하고 직원 섹션 표시
-        async function checkDirectorAndLoadStaff() {
+        // 대표원장인지 확인하고 직원 섹션 표시
+        function checkDirectorAndLoadStaff() {
             const user = JSON.parse(localStorage.getItem('currentPaidUser'));
             if (!user) return;
 
@@ -1355,51 +1354,43 @@
                 return; // 조회 모드에서는 직원 섹션 숨김
             }
 
-            // 원장인 경우에만 직원 섹션 표시
-            if (user.role === '원장' && user.clinic) {
+            // 대표원장인 경우에만 직원 섹션 표시
+            if (user.role === '대표원장' && user.clinic) {
                 document.getElementById('staffSection').classList.add('visible');
-                await loadStaffList(user.clinic, user.id);
+                loadStaffList(user.clinic, user.id);
             }
         }
 
-        // 같은 병원 직원 목록 로드
-        async function loadStaffList(clinicName, currentUserId) {
+        // 같은 병원 직원 목록 로드 (로컬 스토리지)
+        function loadStaffList(clinicName, currentUserId) {
             const staffListContainer = document.getElementById('staffList');
 
-            try {
-                // Supabase에서 같은 병원 직원 조회
-                const { data: staffMembers, error } = await supabase
-                    .from('paid_users')
-                    .select('*')
-                    .eq('clinic', clinicName)
-                    .neq('id', currentUserId)
-                    .order('created_at', { ascending: false });
+            // 로컬 스토리지에서 모든 유료 사용자 조회
+            const allUsers = JSON.parse(localStorage.getItem('paidUsers') || '[]');
 
-                if (error) throw error;
+            // 같은 병원 직원 필터링 (현재 사용자 제외)
+            const staffMembers = allUsers.filter(user =>
+                user.clinic === clinicName && user.id !== currentUserId
+            );
 
-                if (!staffMembers || staffMembers.length === 0) {
-                    staffListContainer.innerHTML = '<div class="no-staff">아직 같은 병원에 등록된 직원이 없습니다.</div>';
-                    return;
-                }
-
-                staffListContainer.innerHTML = staffMembers.map(staff => {
-                    const regDate = staff.created_at ? new Date(staff.created_at).toLocaleDateString('ko-KR') : '';
-                    return `
-                        <div class="staff-item" onclick="viewStaffDashboard('${staff.id}', '${staff.name}', '${staff.password || ''}')">
-                            <div class="staff-avatar">${staff.serial_number || staff.name.charAt(0)}</div>
-                            <div class="staff-info">
-                                <h4>${staff.name} ${staff.role ? '<span style="color:#f59e0b;font-size:0.8rem;">[' + staff.role + ']</span>' : ''}</h4>
-                                <p>등록일: ${regDate}</p>
-                            </div>
-                            <button class="view-btn" onclick="event.stopPropagation(); viewStaffDashboard('${staff.id}', '${staff.name}', '${staff.password || ''}')">대시보드 보기</button>
-                        </div>
-                    `;
-                }).join('');
-
-            } catch (error) {
-                console.error('직원 목록 로드 오류:', error);
-                staffListContainer.innerHTML = '<div class="no-staff">직원 목록을 불러오는데 실패했습니다.</div>';
+            if (staffMembers.length === 0) {
+                staffListContainer.innerHTML = '<div class="no-staff">아직 같은 병원에 등록된 직원이 없습니다.</div>';
+                return;
             }
+
+            staffListContainer.innerHTML = staffMembers.map(staff => {
+                const regDate = staff.registeredAt ? new Date(staff.registeredAt).toLocaleDateString('ko-KR') : '';
+                return `
+                    <div class="staff-item" onclick="viewStaffDashboard('${staff.id}', '${staff.name}', '${staff.password || ''}')">
+                        <div class="staff-avatar">${staff.serialNumber || staff.name.charAt(0)}</div>
+                        <div class="staff-info">
+                            <h4>${staff.name} ${staff.role ? '<span style="color:#f59e0b;font-size:0.8rem;">[' + staff.role + ']</span>' : ''}</h4>
+                            <p>등록일: ${regDate}</p>
+                        </div>
+                        <button class="view-btn" onclick="event.stopPropagation(); viewStaffDashboard('${staff.id}', '${staff.name}', '${staff.password || ''}')">대시보드 보기</button>
+                    </div>
+                `;
+            }).join('');
         }
 
         // 직원 대시보드 조회 (비밀번호 확인)
@@ -1429,7 +1420,7 @@
         }
 
         // 조회 모드 확인 및 데이터 로드
-        async function checkViewMode() {
+        function checkViewMode() {
             const viewingStaffId = sessionStorage.getItem('viewingStaffId');
             const viewingStaffName = sessionStorage.getItem('viewingStaffName');
 
@@ -1441,21 +1432,18 @@
                 // 직원 섹션 숨김
                 document.getElementById('staffSection').classList.remove('visible');
 
-                // 해당 직원의 데이터 로드
-                const { data: staffUser, error } = await supabase
-                    .from('paid_users')
-                    .select('*')
-                    .eq('id', viewingStaffId)
-                    .single();
+                // 로컬 스토리지에서 해당 직원 정보 조회
+                const allUsers = JSON.parse(localStorage.getItem('paidUsers') || '[]');
+                const staffUser = allUsers.find(u => u.id === viewingStaffId);
 
-                if (!error && staffUser) {
+                if (staffUser) {
                     // 프로필 정보 업데이트 (조회 대상 직원)
-                    document.getElementById('profileAvatar').textContent = staffUser.serial_number || staffUser.name.charAt(0);
-                    document.getElementById('profileName').textContent = ((staffUser.serial_number) ? '[' + staffUser.serial_number + '] ' : '') + staffUser.name;
+                    document.getElementById('profileAvatar').textContent = staffUser.serialNumber || staffUser.name.charAt(0);
+                    document.getElementById('profileName').textContent = (staffUser.serialNumber ? '[' + staffUser.serialNumber + '] ' : '') + staffUser.name;
                     document.getElementById('profileClinic').textContent = (staffUser.clinic || '소속 미입력') + (staffUser.role ? ' | ' + staffUser.role : '');
 
-                    if (staffUser.created_at) {
-                        const regDate = new Date(staffUser.created_at).toLocaleDateString('ko-KR');
+                    if (staffUser.registeredAt) {
+                        const regDate = new Date(staffUser.registeredAt).toLocaleDateString('ko-KR');
                         document.getElementById('profileRegDate').textContent = '등록일: ' + regDate;
                     }
 
@@ -1471,9 +1459,9 @@
         }
 
         // 페이지 로드 시 실행
-        window.onload = async function() {
+        window.onload = function() {
             // 조회 모드인지 확인
-            const isViewMode = await checkViewMode();
+            const isViewMode = checkViewMode();
 
             if (!isViewMode) {
                 // 일반 모드: 내 프로필 로드
@@ -1485,8 +1473,8 @@
                     loadQuizData(user.id);
                 }
 
-                // 원장인 경우 직원 섹션 로드
-                await checkDirectorAndLoadStaff();
+                // 대표원장인 경우 직원 섹션 로드
+                checkDirectorAndLoadStaff();
             }
         };
     </script>

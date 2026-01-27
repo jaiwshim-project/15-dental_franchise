@@ -424,6 +424,62 @@
             color: white;
         }
 
+        /* 병원명 자동완성 */
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--primary);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .autocomplete-list.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            color: var(--primary);
+        }
+
+        .autocomplete-item .clinic-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .autocomplete-item .clinic-director {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        .autocomplete-item:hover .clinic-name {
+            color: var(--primary);
+        }
+
         @media (max-width: 500px) {
             .selection-card {
                 padding: 30px 20px;
@@ -482,12 +538,21 @@
 
                     <div class="form-group">
                         <label>소속 치과</label>
-                        <input type="text" id="userClinic" placeholder="OO치과의원">
+                        <div class="autocomplete-container">
+                            <input type="text" id="userClinic" placeholder="OO치과의원" oninput="onClinicInput()" onfocus="onClinicInput()" autocomplete="off">
+                            <div class="autocomplete-list" id="clinicAutocomplete"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>지역</label>
+                        <input type="text" id="userRegion" placeholder="예: 서울 강남구, 부산 해운대구">
                     </div>
 
                     <div class="role-selection">
                         <label>역할 *</label>
                         <div class="role-buttons">
+                            <button type="button" class="role-btn" onclick="selectRole('대표원장')">대표원장</button>
                             <button type="button" class="role-btn" onclick="selectRole('원장')">원장</button>
                             <button type="button" class="role-btn" onclick="selectRole('의사')">의사</button>
                             <button type="button" class="role-btn" onclick="selectRole('상담사')">상담사</button>
@@ -547,16 +612,103 @@
         <a href="user-select.html" class="back-link">← 사용자 유형 다시 선택</a>
     </div>
 
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-
     <script>
         let selectedUserId = null;
         let selectedRole = null;
-        let allUsers = []; // 캐시된 사용자 목록
+        let allUsers = [];
         const urlParams = new URLSearchParams(window.location.search);
         const destination = urlParams.get('dest') || 'index.html#home';
+
+        // 관리자 인증번호
+        const ADMIN_AUTH_CODE = '23975734';
+
+        // 현재 사용자 저장
+        function setCurrentUser(user) {
+            localStorage.setItem('currentPaidUser', JSON.stringify(user));
+        }
+
+        // ============================================
+        // 병원명 자동완성 기능
+        // ============================================
+
+        // 등록된 병원 목록 가져오기 (원장이 등록한 병원만)
+        function getRegisteredClinics() {
+            return JSON.parse(localStorage.getItem('registeredClinics') || '[]');
+        }
+
+        // 병원명 저장 (원장 등록 시)
+        function saveClinicName(clinicName, directorName, regionName) {
+            if (!clinicName) return;
+
+            const clinics = getRegisteredClinics();
+            // 이미 등록된 병원인지 확인
+            const existsIndex = clinics.findIndex(c => c.name === clinicName);
+            if (existsIndex === -1) {
+                clinics.push({
+                    name: clinicName,
+                    director: directorName,
+                    region: regionName || '',
+                    registeredAt: new Date().toISOString()
+                });
+            } else {
+                // 기존 병원 정보 업데이트 (지역 추가)
+                clinics[existsIndex].region = regionName || clinics[existsIndex].region || '';
+            }
+            localStorage.setItem('registeredClinics', JSON.stringify(clinics));
+        }
+
+        // 병원명 입력 시 자동완성
+        function onClinicInput() {
+            const input = document.getElementById('userClinic');
+            const autocompleteList = document.getElementById('clinicAutocomplete');
+            const inputValue = input.value.trim().toLowerCase();
+
+            if (inputValue.length === 0) {
+                autocompleteList.classList.remove('active');
+                return;
+            }
+
+            const clinics = getRegisteredClinics();
+            // 입력값과 비슷한 병원 필터링
+            const matchedClinics = clinics.filter(c =>
+                c.name.toLowerCase().includes(inputValue) ||
+                inputValue.split('').every(char => c.name.toLowerCase().includes(char))
+            );
+
+            if (matchedClinics.length === 0) {
+                autocompleteList.classList.remove('active');
+                return;
+            }
+
+            // 자동완성 목록 표시
+            autocompleteList.innerHTML = matchedClinics.map(c => `
+                <div class="autocomplete-item" onclick="selectClinic('${c.name}', '${c.region || ''}')">
+                    <div class="clinic-name">${c.name}</div>
+                    <div class="clinic-director">원장: ${c.director}${c.region ? ' | 지역: ' + c.region : ''}</div>
+                </div>
+            `).join('');
+            autocompleteList.classList.add('active');
+        }
+
+        // 병원명 선택
+        function selectClinic(clinicName, regionName) {
+            document.getElementById('userClinic').value = clinicName;
+            if (regionName) {
+                document.getElementById('userRegion').value = regionName;
+            }
+            document.getElementById('clinicAutocomplete').classList.remove('active');
+        }
+
+        // 입력창 외부 클릭 시 자동완성 닫기
+        document.addEventListener('click', function(e) {
+            const autocompleteList = document.getElementById('clinicAutocomplete');
+            const clinicInput = document.getElementById('userClinic');
+            if (autocompleteList && clinicInput && !clinicInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+                autocompleteList.classList.remove('active');
+            }
+        });
+
+        // ============================================
 
         // 역할 선택 함수
         function selectRole(role) {
@@ -607,17 +759,15 @@
             loadUserList();
         }
 
-        // 관리자 인증번호
-        const ADMIN_AUTH_CODE = '23975734';
-
-        // 사용자 등록 (Supabase)
-        async function registerUser(event) {
+        // 사용자 등록 (로컬 스토리지)
+        function registerUser(event) {
             event.preventDefault();
 
             const name = document.getElementById('userName').value.trim();
             const clinic = document.getElementById('userClinic').value.trim();
             const role = document.getElementById('userRole').value;
             const phone = document.getElementById('userPhone').value.trim();
+            const region = document.getElementById('userRegion').value.trim();
             const password = document.getElementById('userPassword').value.trim();
             const authCode = document.getElementById('authCode').value.trim();
 
@@ -643,106 +793,54 @@
                 return;
             }
 
-            // 로딩 표시
-            const submitBtn = document.querySelector('.submit-btn');
-            submitBtn.textContent = '등록 중...';
-            submitBtn.disabled = true;
+            // 기존 사용자 목록 가져오기
+            let users = JSON.parse(localStorage.getItem('paidUsers') || '[]');
 
-            try {
-                // Supabase에 사용자 등록
-                const newUser = await registerUserToSupabase({
-                    name: name,
-                    clinic: clinic,
-                    role: role,
-                    phone: phone,
-                    password: password
-                });
-
-                if (newUser) {
-                    // 현재 사용자로 설정
-                    setCurrentUser({
-                        id: newUser.id,
-                        serialNumber: newUser.serial_number,
-                        name: newUser.name,
-                        clinic: newUser.clinic,
-                        role: newUser.role,
-                        phone: newUser.phone,
-                        password: newUser.password,
-                        registeredAt: newUser.created_at
-                    });
-                    localStorage.setItem('userType', 'paid');
-                    sessionStorage.setItem('userTypeSelectedThisSession', 'true');
-
-                    navigateToDestination();
-                } else {
-                    alert('등록에 실패했습니다. 다시 시도해주세요.');
-                }
-            } catch (error) {
-                console.error('등록 오류:', error);
-                alert('등록 중 오류가 발생했습니다.');
-            } finally {
-                submitBtn.textContent = '등록하고 시작하기';
-                submitBtn.disabled = false;
-            }
-        }
-
-        // Supabase에 사용자 등록
-        async function registerUserToSupabase(userData) {
-            // 일련번호 생성
-            const { data: maxData } = await supabase
-                .from('paid_users')
-                .select('serial_number')
-                .order('serial_number', { ascending: false })
-                .limit(1);
-
+            // 일련번호 생성 (0001부터 시작)
             let nextNumber = 1;
-            if (maxData && maxData.length > 0) {
-                nextNumber = parseInt(maxData[0].serial_number) + 1;
+            if (users.length > 0) {
+                const maxNumber = Math.max(...users.map(u => parseInt(u.serialNumber) || 0));
+                nextNumber = maxNumber + 1;
             }
             const serialNumber = String(nextNumber).padStart(4, '0');
 
-            const { data, error } = await supabase
-                .from('paid_users')
-                .insert([{
-                    serial_number: serialNumber,
-                    name: userData.name,
-                    clinic: userData.clinic || null,
-                    role: userData.role || null,
-                    phone: userData.phone || null,
-                    password: userData.password
-                }])
-                .select()
-                .single();
+            // 새 사용자 추가
+            const newUser = {
+                id: Date.now().toString(),
+                serialNumber: serialNumber,
+                name: name,
+                clinic: clinic,
+                role: role,
+                phone: phone,
+                region: region,
+                password: password,
+                registeredAt: new Date().toISOString()
+            };
 
-            if (error) {
-                console.error('Supabase 등록 오류:', error);
-                return null;
+            users.push(newUser);
+            localStorage.setItem('paidUsers', JSON.stringify(users));
+
+            // 대표원장 또는 원장인 경우 병원명 저장 (자동완성용)
+            if ((role === '대표원장' || role === '원장') && clinic) {
+                saveClinicName(clinic, name, region);
             }
-            return data;
+
+            // 현재 사용자로 설정
+            setCurrentUser(newUser);
+            localStorage.setItem('userType', 'paid');
+            sessionStorage.setItem('userTypeSelectedThisSession', 'true');
+
+            // 목적지로 이동
+            navigateToDestination();
         }
 
-        // 사용자 목록 로드 (Supabase)
-        async function loadUserList() {
+        // 사용자 목록 로드 (로컬 스토리지)
+        function loadUserList() {
             const searchInput = document.getElementById('userSearchInput');
             if (searchInput) searchInput.value = '';
 
-            const container = document.getElementById('userListContainer');
-            container.innerHTML = '<div class="no-users"><div class="icon">⏳</div><p>로딩 중...</p></div>';
-
-            try {
-                const { data, error } = await supabase
-                    .from('paid_users')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                allUsers = data || [];
-                renderUserList();
-            } catch (error) {
-                console.error('사용자 목록 로드 오류:', error);
-                container.innerHTML = '<div class="no-users"><div class="icon">⚠️</div><p>목록을 불러오는데 실패했습니다.</p></div>';
-            }
+            allUsers = JSON.parse(localStorage.getItem('paidUsers') || '[]');
+            renderUserList();
         }
 
         // 사용자 목록 렌더링
@@ -761,7 +859,7 @@
 
             const searchTerm = filterText.toLowerCase().trim();
             const filteredUsers = searchTerm ? allUsers.filter(user => {
-                const serialNum = (user.serial_number || '').toLowerCase();
+                const serialNum = (user.serialNumber || '').toLowerCase();
                 const name = (user.name || '').toLowerCase();
                 const clinic = (user.clinic || '').toLowerCase();
                 return serialNum.includes(searchTerm) || name.includes(searchTerm) || clinic.includes(searchTerm);
@@ -773,9 +871,9 @@
             }
 
             container.innerHTML = filteredUsers.map(user => {
-                const regDate = user.created_at ? new Date(user.created_at).toLocaleDateString('ko-KR') : '날짜 없음';
+                const regDate = user.registeredAt ? new Date(user.registeredAt).toLocaleDateString('ko-KR') : '날짜 없음';
                 const roleText = user.role ? `[${user.role}]` : '';
-                const serialNum = user.serial_number || '----';
+                const serialNum = user.serialNumber || '----';
                 return `
                 <div class="user-item" onclick="selectUserItem('${user.id}')" id="user-${user.id}">
                     <div class="avatar">${serialNum}</div>
@@ -830,16 +928,7 @@
             }
 
             // 현재 사용자 설정
-            setCurrentUser({
-                id: user.id,
-                serialNumber: user.serial_number,
-                name: user.name,
-                clinic: user.clinic,
-                role: user.role,
-                phone: user.phone,
-                password: user.password,
-                registeredAt: user.created_at
-            });
+            setCurrentUser(user);
             localStorage.setItem('userType', 'paid');
             sessionStorage.setItem('userTypeSelectedThisSession', 'true');
             navigateToDestination();
@@ -870,16 +959,7 @@
                 return;
             }
 
-            setCurrentUser({
-                id: user.id,
-                serialNumber: user.serial_number,
-                name: user.name,
-                clinic: user.clinic,
-                role: user.role,
-                phone: user.phone,
-                password: user.password,
-                registeredAt: user.created_at
-            });
+            setCurrentUser(user);
             localStorage.setItem('userType', 'paid');
             sessionStorage.setItem('userTypeSelectedThisSession', 'true');
             window.location.href = 'dashboard.html';
