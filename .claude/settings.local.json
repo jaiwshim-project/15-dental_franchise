@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n프로젝트 구조 개편: 페이지별 분리 및 CSS 모듈화\n\n- 루트의 개별 HTML 파일들을 pages/ 디렉토리로 이동\n- CSS를 css/ 디렉토리로 분리\n- index.html 업데이트\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

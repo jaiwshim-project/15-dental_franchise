@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가맹 문의 | DF 프랜차이즈 사업계획서</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">DF 프랜차이즈<span>Business Plan</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html">홈</a></li>
+                <li><a href="executive-summary.html">사업 요약</a></li>
+                <li><a href="market-analysis.html">시장 분석</a></li>
+                <li><a href="business-model.html">비즈니스 모델</a></li>
+                <li><a href="program-detail.html">프로그램</a></li>
+                <li><a href="franchise-system.html">프랜차이즈</a></li>
+                <li><a href="revenue-model.html">수익 모델</a></li>
+                <li><a href="operation-plan.html">운영 계획</a></li>
+                <li><a href="team.html">조직</a></li>
+                <li><a href="financial-plan.html">재무 계획</a></li>
+                <li><a href="contact.html" class="active nav-cta">가맹 문의</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="document.getElementById('navMenu').classList.toggle('active')">☰</button>
+        </div>
+    </nav>
+
+    <section class="hero" style="padding:120px 0 60px">
+        <div class="container">
+            <div class="hero-grid">
+            <span class="hero-badge">10. Contact</span>
+            <h1 class="hero-title">가맹 문의</h1>
+            <p class="hero-subtitle">AI 기반 치과 프랜차이즈에 관심이 있으시다면 연락해 주세요</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="card-grid card-grid-2">
+                <!-- Form -->
+                <div class="card fade-up">
+                    <h3 style="margin-bottom:24px">가맹 상담 신청</h3>
+                    <form onsubmit="event.preventDefault(); alert('상담 신청이 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.'); this.reset();">
+                        <div class="form-group">
+                            <label>성함 *</label>
+                            <input type="text" placeholder="이름을 입력하세요" required>
+                        </div>
+                        <div class="form-group">
+                            <label>연락처 *</label>
+                            <input type="tel" placeholder="010-0000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>이메일</label>
+                            <input type="email" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>현재 상태 *</label>
+                            <select required>
+                                <option value="">선택하세요</option>
+                                <option>개원 예정 (1년 이내)</option>
+                                <option>개원 예정 (1년 이상)</option>
+                                <option>기존 병원 운영 중 (3년 미만)</option>
+                                <option>기존 병원 운영 중 (3년 이상)</option>
+                                <option>기타</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>관심 가맹 유형</label>
+                            <select>
+                                <option value="">선택하세요</option>
+                                <option>Type A: 신규 개원 (프리미엄)</option>
+                                <option>Type B: 기존 병원 전환</option>
+                                <option>Type C: 솔루션 Only (라이트)</option>
+                                <option>아직 미정 / 상담 후 결정</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>희망 지역</label>
+                            <input type="text" placeholder="예: 서울 강남구, 대전 등">
+                        </div>
+                        <div class="form-group">
+                            <label>문의 내용</label>
+                            <textarea rows="4" placeholder="궁금한 점이나 요청사항을 자유롭게 작성해 주세요"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%">상담 신청하기</button>
+                    </form>
+                </div>
+
+                <!-- Info -->
+                <div>
+                    <div class="card fade-up" style="margin-bottom:24px">
+                        <h3 style="margin-bottom:16px">연락처 정보</h3>
+                        <div style="margin-bottom:16px">
+                            <div style="font-weight:600;margin-bottom:4px">DentalClinicFinder</div>
+                            <div style="color:var(--gray);font-size:0.9rem">AI 기반 치과 프랜차이즈 본부</div>
+                        </div>
+                        <div style="margin-bottom:12px;font-size:0.95rem">
+                            <strong>대표:</strong> 심재우
+                        </div>
+                        <div style="margin-bottom:12px;font-size:0.95rem">
+                            <strong>주소:</strong> 대전광역시 중구
+                        </div>
+                    </div>
+
+                    <div class="card fade-up" style="margin-bottom:24px">
+                        <h3 style="margin-bottom:16px">상담 프로세스</h3>
+                        <div class="timeline" style="padding-left:30px">
+                            <div class="timeline-item" style="margin-bottom:20px">
+                                <div class="timeline-dot" style="left:-23px;width:16px;height:16px"></div>
+                                <div style="font-weight:600">1. 온라인 상담 신청</div>
+                                <div style="color:var(--gray);font-size:0.85rem">위 폼 작성 또는 전화 문의</div>
+                            </div>
+                            <div class="timeline-item" style="margin-bottom:20px">
+                                <div class="timeline-dot" style="left:-23px;width:16px;height:16px"></div>
+                                <div style="font-weight:600">2. 1차 전화 상담</div>
+                                <div style="color:var(--gray);font-size:0.85rem">사업 모델 소개 및 적합성 확인</div>
+                            </div>
+                            <div class="timeline-item" style="margin-bottom:20px">
+                                <div class="timeline-dot" style="left:-23px;width:16px;height:16px"></div>
+                                <div style="font-weight:600">3. 대면 미팅</div>
+                                <div style="color:var(--gray);font-size:0.85rem">상세 설명 및 AI 시스템 데모</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="left:-23px;width:16px;height:16px"></div>
+                                <div style="font-weight:600">4. 가맹 계약</div>
+                                <div style="color:var(--gray);font-size:0.85rem">계약 체결 및 온보딩 시작</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-up" style="background:var(--gradient-hero);color:var(--white)">
+                        <h3 style="margin-bottom:12px">사업계획서 전체 보기</h3>
+                        <p style="color:rgba(255,255,255,0.8);margin-bottom:16px;font-size:0.95rem">각 섹션을 클릭하여 상세 내용을 확인하세요.</p>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <a href="executive-summary.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">01. 사업 요약 →</a>
+                            <a href="market-analysis.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">02. 시장 분석 →</a>
+                            <a href="business-model.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">03. 비즈니스 모델 →</a>
+                            <a href="program-detail.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">04. 프로그램 상세 →</a>
+                            <a href="franchise-system.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">05. 프랜차이즈 시스템 →</a>
+                            <a href="revenue-model.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">06. 수익 모델 →</a>
+                            <a href="operation-plan.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">07. 운영 계획 →</a>
+                            <a href="team.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">08. 조직 & 팀 →</a>
+                            <a href="financial-plan.html" style="color:rgba(255,255,255,0.9);font-size:0.9rem">09. 재무 계획 →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">&copy; 2026 DentalClinicFinder Franchise. All rights reserved.</div>
+        </div>
+    </footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+</body>
+</html>
